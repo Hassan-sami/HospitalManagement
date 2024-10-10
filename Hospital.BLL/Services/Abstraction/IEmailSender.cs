@@ -9,6 +9,6 @@ namespace Hospital.BLL.Services.Abstraction
 {
     public interface IEmailSender
     {
-        Task send(string to, string subject, string message);
+        Task<bool> send(string to, string subject, string message);
     }
 }

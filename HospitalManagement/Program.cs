@@ -1,4 +1,5 @@
 using Hospital.BLL.Helpers;
+using Hospital.BLL.Mappers;
 using Hospital.BLL.Services.Abstraction;
 using Hospital.BLL.Services.Implementation;
 using Hospital.DAL.DataBase;
@@ -33,9 +34,12 @@ namespace HospitalManagement
             builder.Services.AddDbContext<HospitalDbContext>(options =>
             options.UseSqlServer(connectionString));
 
-            builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            builder.Services.AddIdentity<ApplicationUser,IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<HospitalDbContext>()
                 .AddDefaultTokenProviders();
+            builder.Services.AddAutoMapper(option => option.AddProfile<DomainProfile>());
+
+            
 
             var app = builder.Build();
 

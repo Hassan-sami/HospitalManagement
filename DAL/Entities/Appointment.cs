@@ -19,14 +19,10 @@ namespace Hospital.DAL.Entities
         [MaxLength(500, ErrorMessage = "Notes cannot exceed 500 characters.")]
         public string? Notes { get; set; }
 
-        
-        [ForeignKey("Patient")]
         public string? PatientID { get; set; }
 
         public Patient? Patient { get; set; }
-
         
-        [ForeignKey("Doctor")]
         public string? DoctorID { get; set; }
 
         public Doctor? Doctor { get; set; }
