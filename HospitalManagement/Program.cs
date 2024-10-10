@@ -5,6 +5,7 @@ using Hospital.DAL.DataBase;
 using Hospital.DAL.Entities;
 using Hospital.DAL.Repository.Abstraction;
 using Hospital.DAL.Repository.Implementation;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,6 +19,8 @@ namespace HospitalManagement
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddAutoMapper(typeof(Program));
 
             builder.Services.Configure<EmailOptions>(builder.Configuration.GetSection("EmailOptions"));
 
@@ -36,6 +39,7 @@ namespace HospitalManagement
             builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<HospitalDbContext>()
                 .AddDefaultTokenProviders();
+          
 
             var app = builder.Build();
 
