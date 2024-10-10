@@ -19,8 +19,9 @@ namespace HospitalManagement
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            // AutoMapper
 
-            builder.Services.AddAutoMapper(typeof(Program));
+            builder.Services.AddAutoMapper(x=>x.AddProfile(new MappingProfile()));
 
             builder.Services.Configure<EmailOptions>(builder.Configuration.GetSection("EmailOptions"));
 

@@ -18,6 +18,6 @@ public class MappingProfile : Profile
         CreateMap<AdminVm, Admin>();
         CreateMap<PatientVm, Patient>();
         CreateMap<MedicalRecordVm, MedicalRecord>();
-        CreateMap<AppointmentVm, Appointment>();
+        CreateMap<AppointmentVm, Appointment>(); 
     }
 }
