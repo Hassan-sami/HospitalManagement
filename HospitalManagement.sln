@@ -5,9 +5,9 @@ VisualStudioVersion = 17.11.35312.102
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HospitalManagement", "HospitalManagement\HospitalManagement.csproj", "{42184430-201D-42EB-B274-F9D319533AB4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hospital.DAL", "DAL\Hospital.DAL.csproj", "{964D407F-76EF-4AC7-9AFC-053A8F46170E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hospital.DAL", "DAL\Hospital.DAL.csproj", "{964D407F-76EF-4AC7-9AFC-053A8F46170E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hospital.BLL", "Hospital.BLL\Hospital.BLL.csproj", "{E2B40ECA-F4B3-4DC9-BB8D-E60315A2F83A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hospital.BLL", "Hospital.BLL\Hospital.BLL.csproj", "{E2B40ECA-F4B3-4DC9-BB8D-E60315A2F83A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

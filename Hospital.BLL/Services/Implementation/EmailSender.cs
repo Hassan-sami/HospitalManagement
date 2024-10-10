@@ -2,6 +2,7 @@
 using Hospital.BLL.Services.Abstraction;
 using MailKit.Net.Smtp;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using MimeKit;
 
 
@@ -15,7 +16,7 @@ namespace Hospital.BLL.Services.Implementation
         {
             this.options = options.CurrentValue;
         }
-        public async Task send(string to, string subject, string message)
+        public async Task<bool> send(string to, string subject, string message)
         {
             var ms = new MimeMessage
             {
@@ -31,10 +32,19 @@ namespace Hospital.BLL.Services.Implementation
             ms.Body = bodyBuilder.ToMessageBody();
             ms.From.Add(new MailboxAddress("your hospital", options.From));
             SmtpClient smtpClient = new SmtpClient();
-            await smtpClient.ConnectAsync(options.SmtpServer, options.Port, MailKit.Security.SecureSocketOptions.StartTls);
-            await smtpClient.AuthenticateAsync(options.From, options.Password);
-            await smtpClient.SendAsync(ms);
-            await smtpClient.DisconnectAsync(true);
+            try 
+            { 
+                await smtpClient.ConnectAsync(options.SmtpServer, options.Port, MailKit.Security.SecureSocketOptions.StartTls);
+                
+                await smtpClient.AuthenticateAsync(options.From, options.Password);
+                await smtpClient.SendAsync(ms);
+                await smtpClient.DisconnectAsync(true);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }
