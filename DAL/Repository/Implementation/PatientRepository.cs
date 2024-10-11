@@ -4,6 +4,7 @@ using Hospital.DAL.Repository.Abstraction;
 
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace Hospital.DAL.Repository.Implementation
 {
@@ -65,6 +66,11 @@ namespace Hospital.DAL.Repository.Implementation
             }
 
             disposed = true;
+        }
+
+        public  async Task<Patient> GetPatient(Expression<Func<Patient, bool>> expression)
+        {
+            return await _context.Patients.FirstOrDefaultAsync(expression);
         }
     }
 }

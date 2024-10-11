@@ -35,8 +35,7 @@ namespace HospitalManagement
             options.UseSqlServer(connectionString));
 
             builder.Services.AddIdentity<ApplicationUser,IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<HospitalDbContext>()
-                .AddDefaultTokenProviders();
+                .AddEntityFrameworkStores<HospitalDbContext>().AddDefaultTokenProviders();
             builder.Services.AddAutoMapper(option => option.AddProfile<DomainProfile>());
 
             
@@ -56,7 +55,6 @@ namespace HospitalManagement
 
             app.UseRouting();
 
-            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(

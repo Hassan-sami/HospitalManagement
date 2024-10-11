@@ -2,6 +2,7 @@
 using Hospital.BLL.ModelVM;
 using Hospital.BLL.Services.Abstraction;
 using Hospital.DAL.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
@@ -12,6 +13,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace HospitalManagement.Controllers
 {
+    
     public class AccountController : Controller
     {
         private readonly IMapper mapper;
@@ -30,6 +32,7 @@ namespace HospitalManagement.Controllers
             this.logger = logger;
         }
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> Register()
         {
             RegisterViewModel vm = new RegisterViewModel()
@@ -56,7 +59,7 @@ namespace HospitalManagement.Controllers
                     var code = await userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                     var callBackAction = Url.Action("ConfirmEmail", "Account", new { Id = id, Code = code});
-                    bool sent = await sender.send(user.Email, "Confrim Hospital Registerion",
+                    bool sent =  await sender.send(user.Email, "Confrim Hospital Registerion",
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callBackAction)}'>clicking here</a>.");
                     if (!sent)
                     {
@@ -112,7 +115,28 @@ namespace HospitalManagement.Controllers
         [HttpGet]
         public IActionResult LogIn()
         {
-            return Json("sss");
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> LogIn(LogInViewModel viewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await signInManager.PasswordSignInAsync(new MailAddress(viewModel.Email).User,
+                    viewModel.Password, viewModel.RememberMe, lockoutOnFailure: false);
+                if (result.Succeeded)
+                {
+                    logger.LogInformation("User logged in.");
+                    return RedirectToAction("Index","Home");
+                }
+                ModelState.AddModelError("", " Email or passowrd wrong try again");
+
+            }
+
+            return View("LogIn", viewModel);
+
         }
 
 

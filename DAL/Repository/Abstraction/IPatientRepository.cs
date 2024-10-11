@@ -1,5 +1,6 @@
 ﻿using Hospital.DAL.Entities;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace Hospital.DAL.Repository.Abstraction
 {
@@ -11,6 +12,7 @@ namespace Hospital.DAL.Repository.Abstraction
         Task UpdatePatient(Patient patient);
         Task DeletePatient(string id);
 
+        Task<Patient> GetPatient(Expression<Func<Patient,bool>> expression);
         void Dispose();
     }
 }

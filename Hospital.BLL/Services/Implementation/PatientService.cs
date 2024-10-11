@@ -1,7 +1,7 @@
 ﻿using Hospital.BLL.Services.Abstraction;
 using Hospital.DAL.Repository.Abstraction;
 using Hospital.DAL.Entities;
-
+using System.Linq.Expressions;
 
 namespace Hospital.BLL.Services.Implementation
 {
@@ -62,6 +62,11 @@ namespace Hospital.BLL.Services.Implementation
             {
                 return false;
             }
+        }
+
+        public async Task<Patient> GetPatient(Expression<Func<Patient, bool>> expression)
+        {
+            return await _patientRepository.GetPatient(expression);
         }
     }
 }
