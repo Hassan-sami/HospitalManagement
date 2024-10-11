@@ -1,61 +1,155 @@
-﻿@model RegisterViewModel 
+﻿@model RegisterViewModel
 @{
     ViewData["Title"] = "Register";
-    Layout = "_RegisterLayout";
+    Layout = "_RegisterLayout"; // Ensure this is your updated layout file
 }
 
-<div class="box-three">
-    <form asp-action="Register" asp-controller="Account" method="post">
-        <div asp-validation-summary="All" class="text-danger"></div>
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Open Sans', sans-serif; /* Updated to use the new font */
+            background-color: #cce7f0;
+        }
 
-        <label class="l-1" asp-for="FirstName"></label> <br>
-        <input class="text" asp-for="FirstName">
-        <span asp-validation-for="FirstName" class="text-danger"></span>
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
 
+        .form-section {
+            background-color: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            max-width: 600px; /* Adjust as necessary */
+            width: 100%;
+        }
 
-        <label class="l-1" asp-for="LastName"></label> <br>
-        <input class="text" asp-for="LastName">
-        <span asp-validation-for="LastName" class="text-danger"></span>
+            .form-section h2 {
+                margin-bottom: 20px;
+                text-align: center;
+                color: #333;
+            }
 
-        <label class="l-1" asp-for="PhoneNumber"></label> <br>
-        <input class="text" asp-for="PhoneNumber">
-        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+        .input-group {
+            margin-bottom: 20px;
+        }
 
-        <label class="l-3" asp-for="Email">Email Address</label> <br>
-        <input class="em" type="email" asp-for="Email">
-        <span asp-validation-for="Email" class="text-danger"></span>
+            .input-group label {
+                display: block;
+                margin-bottom: 5px;
+                font-weight: bold;
+            }
 
-        <label class="l-2" asp-for="Password"></label> <br>
-        <input class="pass" asp-for="Password">
-        <span asp-validation-for="Password" class="text-danger"></span>
+            .input-group input,
+            .input-group select {
+                width: 100%;
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                box-sizing: border-box; /* Ensures padding is included in width */
+            }
 
-        <label class="l-2" asp-for="ConfirmedPassword"></label> <br>
-        <input class="pass" asp-for="ConfirmedPassword">
-        <span asp-validation-for="ConfirmedPassword" class="text-danger"></span>
+                .input-group input[type="file"] {
+                    border: none; /* Remove border for file input */
+                }
 
-        <label class="l-2" asp-for="DateOfBirth"></label> <br>
-        <input class="pass" asp-for="DateOfBirth" value="@DateTime.Now">
-        <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+        .sub {
+            background-color: #00a3c8;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 10px 20px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
 
-        @* <label class="l-2" asp-for="Gender"></label> <br>
-        <input class="pass" asp-for="Gender">
-        <span asp-validation-for="Gender" class="text-danger"></span> *@
-        <div class="form-group">
-            <label asp-for="Gender"></label>
-            <select asp-for="Gender" class="form-control">
-                <option value="">Select Gender</option>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-            </select>
-            <span asp-validation-for="Gender" class="text-danger"></span>
+        p {
+            text-align: center;
+        }
+
+            p a {
+                color: #00a3c8;
+                text-decoration: none;
+            }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-section">
+            <h2>Create Account</h2>
+            <form asp-action="Register" asp-controller="Account" method="post" enctype="multipart/form-data">
+                <div asp-validation-summary="All" class="text-danger"></div>
+
+                <div class="input-group">
+                    <label asp-for="FirstName"></label>
+                    <input class="text" asp-for="FirstName" placeholder="First Name" required />
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+
+                <div class="input-group">
+                    <label asp-for="LastName"></label>
+                    <input class="text" asp-for="LastName" placeholder="Last Name" required />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+
+                <div class="input-group">
+                    <label asp-for="PhoneNumber"></label>
+                    <input class="text" asp-for="PhoneNumber" placeholder="Phone Number" required />
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                </div>
+
+                <div class="input-group">
+                    <label asp-for="Email">Email Address</label>
+                    <input class="em" type="email" asp-for="Email" placeholder="Email" required />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <div class="input-group">
+                    <label asp-for="Password"></label>
+                    <input class="pass" asp-for="Password" placeholder="Password" required />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+
+                <div class="input-group">
+                    <label asp-for="ConfirmedPassword"></label>
+                    <input class="pass" asp-for="ConfirmedPassword" placeholder="Confirm Password" required />
+                    <span asp-validation-for="ConfirmedPassword" class="text-danger"></span>
+                </div>
+
+                <div class="input-group">
+                    <label asp-for="DateOfBirth"></label>
+                    <input class="pass" asp-for="DateOfBirth" type="date" required />
+                    <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Gender"></label>
+                    <select asp-for="Gender" class="form-control">
+                        <option value="">Select Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                    <span asp-validation-for="Gender" class="text-danger"></span>
+                </div>
+
+               
+
+                <input class="sub" type="submit" value="Sign Up">
+                <p>Have an Account? <a asp-action="LogIn" asp-controller="Account">Sign in</a></p>
+            </form>
         </div>
+    </div>
 
-        <input class="sub" type="submit" value="Sign Up">
-        <p>Have Account? <a asp-action="LogIn" asp-controller="Account">Sign in</a></p>
 
-    </form>
-</div>
-
+</body>
+</html>
 
 @section Scripts {
     @{
