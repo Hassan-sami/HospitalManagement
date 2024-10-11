@@ -4,34 +4,162 @@
     Layout = "~/Views/Shared/_RegisterLayout.cshtml";
 }
 
-<div class="box-two">
-    <form asp-action="LogIn" asp-controller="Account" method="post">
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login Page</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #cce7f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
 
-        <div asp-validation-summary="All" class="text-danger"></div>
+        .container {
+            background-color: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column; /* Stacked layout for all screen sizes */
+            padding: 20px;
+            max-width: 900px;
+            width: 100%;
+        }
 
-        <label class="l-1" asp-for="Email"></label> <br>
-        <input class="text" asp-for="Email">
-        <span asp-validation-for="Email" class="text-danger"></span>
+        .image-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
 
-        <label class="l-2" asp-for="Password"></label> <br>
-        <input class="pass" asp-for="Password">
-        <span asp-validation-for="Password" class="text-danger"></span> <br>
+            .image-section img {
+                max-width: 100%;
+                border-radius: 20px;
+            }
 
-        <input class="ch" type="checkbox" asp-for="RememberMe">
-        <label class="l-3" asp-for="RememberMe"></label>
-        <span asp-validation-for="RememberMe" class="text-danger"></span>
+        .form-section {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
 
-        <a class="goo" href="index.html">Forgot Password ?</a>
-        <input class="sub" type="submit" value=" Sign in">
+            .form-section .hospital-icon {
+                font-size: 50px;
+                color: #00a3c8;
+                margin-bottom: 20px;
+            }
 
-        <p>New member? <a asp-action="Register" asp-controller="Account">Create an account</a></p>
-    </form>
-</div>
+            .form-section h2 {
+                margin: 0;
+                font-size: 24px;
+                color: #333333;
+            }
 
+            .form-section p {
+                margin: 10px 0 20px;
+                color: #666666;
+            }
+
+            .form-section .input-group {
+                display: flex;
+                align-items: center;
+                background-color: #f0f8fa;
+                border-radius: 10px;
+                padding: 10px;
+                width: 100%;
+                margin-bottom: 20px;
+            }
+
+                .form-section .input-group i {
+                    color: #00a3c8;
+                    margin-right: 10px;
+                }
+
+                .form-section .input-group input {
+                    border: none;
+                    background: none;
+                    outline: none;
+                    width: 100%;
+                    color: #333333;
+                }
+
+            .form-section button {
+                background-color: #00a3c8;
+                color: #ffffff;
+                border: none;
+                border-radius: 10px;
+                padding: 10px 20px;
+                cursor: pointer;
+                font-size: 16px;
+                width: 100%;
+            }
+
+            .form-section .options {
+                display: flex;
+                justify-content: space-between;
+                width: 100%;
+                margin-top: 10px;
+            }
+
+                .form-section .options a {
+                    color: #00a3c8;
+                    text-decoration: none;
+                }
+
+            .form-section .remember-me {
+                display: flex;
+                align-items: center;
+            }
+
+                .form-section .remember-me input {
+                    margin-right: 5px;
+                }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="image-section">
+            <img alt="Illustration of medical professionals" src="https://storage.googleapis.com/a1aa/image/dYqMdftZ9ix7BChBHoch6MMtjaswTSa1F8jiZ309rVH7L3yJA.jpg" />
+        </div>
+        <div class="form-section">
+            <i class="fas fa-hospital hospital-icon"></i>
+            <h2>Welcome Back</h2>
+            <p>Please enter your details to continue</p>
+            <div class="input-group">
+                <i class="fas fa-envelope"></i>
+                <input type="email" asp-for="Email" placeholder="Email" required />
+            </div>
+            <span asp-validation-for="Email" class="text-danger"></span>
+            <div class="input-group">
+                <i class="fas fa-lock"></i>
+                <input type="password" asp-for="Password" placeholder="Password" required />
+            </div>
+            <span asp-validation-for="Password" class="text-danger"></span>
+            <div class="remember-me">
+                <input type="checkbox" asp-for="RememberMe" id="remember" />
+                <label for="remember">Remember me</label>
+            </div>
+            <button type="submit">LOGIN</button>
+            <div class="options">
+                <a href="#">Forgot Password?</a>
+                <a asp-action="Register" asp-controller="Account">Create a new account</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
 
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 }
-
