@@ -58,7 +58,16 @@ namespace HospitalManagement.Controllers
                     var id = await userManager.GetUserIdAsync(user);
                     var code = await userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                    var callBackAction = Url.Action("ConfirmEmail", "Account", new { Id = id, Code = code});
+                    var callBackAction = Url.Action(new Microsoft.AspNetCore.Mvc.Routing.UrlActionContext()
+                    {
+                        Action = "ConfirmEmail",
+                        Controller = "Account",
+                        Values = new { id = id, code =code },
+                        //Host = Request.Host.Value,
+                        Protocol = Request.Scheme,
+                        
+
+                    });
                     bool sent =  await sender.send(user.Email, "Confrim Hospital Registerion",
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callBackAction)}'>clicking here</a>.");
                     if (!sent)
