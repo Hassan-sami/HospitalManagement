@@ -19,5 +19,7 @@ namespace Hospital.BLL.ModelVM
 
         [Display(Name = "remember me")]
         public bool RememberMe { get; set; }
+
+        public string? ReturnUrl { get ; set; }
     }
 }

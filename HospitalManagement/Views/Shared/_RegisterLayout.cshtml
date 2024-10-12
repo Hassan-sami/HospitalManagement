@@ -8,12 +8,8 @@
     <!-- Bootstrap File -->
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <!-- Icons File -->
-    <link rel="stylesheet" href="/css/all.min.css">
-    <!-- Reset Body File -->
-    <link rel="stylesheet" href="/css/normalize.css">
-    <!-- Style File -->
-    <link rel="stylesheet" href="/css/login.css">
-    <link rel="stylesheet" href="/css/register.css">
+    
+    
     @await RenderSectionAsync("Style", required: false)
     <!-- Google Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,18 +17,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container-fluid">
-        <div class="row justify-content-center align-items-center" style="min-height: 100vh;">
-            <div class="col-md-6">
-                <div class="text-center">
-                   
-                    <span>Welcome to Our Hospital</span>
-                </div>
-                @RenderBody()
-            </div>
-        </div>
-    </div>
-    <script src="/lib/jquery/dist/jquery.min.js"></script>
+    @RenderBody()
+    @* <script src="/lib/jquery/dist/jquery.min.js"></script> *@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

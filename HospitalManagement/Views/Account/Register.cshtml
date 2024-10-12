@@ -4,86 +4,14 @@
     Layout = "_RegisterLayout"; // Ensure this is your updated layout file
 }
 
-<!DOCTYPE html>
-<html>
-<head>
-    <style>
-        body {
-            margin: 0;
-            font-family: 'Open Sans', sans-serif; /* Updated to use the new font */
-            background-color: #cce7f0;
-        }
 
-        .container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
 
-        .form-section {
-            background-color: #ffffff;
-            border-radius: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            max-width: 600px; /* Adjust as necessary */
-            width: 100%;
-        }
 
-            .form-section h2 {
-                margin-bottom: 20px;
-                text-align: center;
-                color: #333;
-            }
 
-        .input-group {
-            margin-bottom: 20px;
-        }
-
-            .input-group label {
-                display: block;
-                margin-bottom: 5px;
-                font-weight: bold;
-            }
-
-            .input-group input,
-            .input-group select {
-                width: 100%;
-                padding: 10px;
-                border: 1px solid #ccc;
-                border-radius: 5px;
-                box-sizing: border-box; /* Ensures padding is included in width */
-            }
-
-                .input-group input[type="file"] {
-                    border: none; /* Remove border for file input */
-                }
-
-        .sub {
-            background-color: #00a3c8;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            padding: 10px 20px;
-            cursor: pointer;
-            width: 100%;
-            font-size: 16px;
-        }
-
-        p {
-            text-align: center;
-        }
-
-            p a {
-                color: #00a3c8;
-                text-decoration: none;
-            }
-    </style>
-</head>
-<body>
-    <div class="container">
+<div class="container">
         <div class="form-section">
             <h2>Create Account</h2>
+        <p><a asp-action="Index" asp-controller="Home">Home</a></p>
             <form asp-action="Register" asp-controller="Account" method="post" enctype="multipart/form-data">
                 <div asp-validation-summary="All" class="text-danger"></div>
 
@@ -148,8 +76,10 @@
     </div>
 
 
-</body>
-</html>
+@section Style {
+        <link rel="stylesheet" href="/css/newregister.css">
+}
+
 
 @section Scripts {
     @{

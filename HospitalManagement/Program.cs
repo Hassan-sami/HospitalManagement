@@ -8,6 +8,7 @@ using Hospital.DAL.Repository.Abstraction;
 using Hospital.DAL.Repository.Implementation;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace HospitalManagement
 {
@@ -33,6 +34,15 @@ namespace HospitalManagement
 
             builder.Services.AddDbContext<HospitalDbContext>(options =>
             options.UseSqlServer(connectionString));
+            var googleOptions = builder.Configuration.GetSection("Auth:Google").Get<GoogleOptions>();
+            builder.Services.AddAuthentication().AddGoogle(
+                options =>
+                {
+                    options.ClientId = googleOptions.ClientID;
+                    options.ClientSecret =  googleOptions.ClientSecret;
+                   
+                   
+                });
 
             builder.Services.AddIdentity<ApplicationUser,IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<HospitalDbContext>().AddDefaultTokenProviders();

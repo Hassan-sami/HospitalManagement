@@ -21,6 +21,7 @@ namespace Hospital.BLL.Mappers
             CreateMap<Appointment, AppointmentVm>();
 
 
+
             CreateMap<DoctorVm, Doctor>();
             CreateMap<AdminVm, Admin>();
             CreateMap<PatientVm, Patient>();

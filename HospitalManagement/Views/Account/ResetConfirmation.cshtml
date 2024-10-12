@@ -1,0 +1,15 @@
+﻿
+@{
+    ViewData["Title"] = "ResetConfirmation";
+    Layout = "~/Views/Shared/_RegisterLayout.cshtml";
+}
+
+<div class="container">
+    <h2>Email sent successful</h2>
+    <p>Please check your email to change password.</p>
+    <a class="link" asp-action="ResendEmail" asp-controller="Account" asp-route-email="@ViewBag.email" asp-route-code="@ViewBag.code">resend email</a>
+</div>
+
+@section Style {
+    <link rel="stylesheet" href="/css/confirmation.css">
+}
