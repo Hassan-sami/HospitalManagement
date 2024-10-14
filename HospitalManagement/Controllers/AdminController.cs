@@ -22,11 +22,12 @@ namespace HospitalManagement.Controllers
         private readonly ILogger<AccountController> logger;
         private readonly ISepcializationService sepcializationService;
         private readonly IDoctorService doctorService;
+        private readonly IPatientService patientService;
 
         public AdminController(IMapper mapper, IEmailSender sender,
             UserManager<ApplicationUser> userManager, 
             SignInManager<ApplicationUser> signInManager,
-            ILogger<AccountController> logger, ISepcializationService sepcializationService, IDoctorService doctorService)
+            ILogger<AccountController> logger, ISepcializationService sepcializationService, IDoctorService doctorService,IPatientService patientService)
         {
             this.mapper = mapper;
             this.sender = sender;
@@ -35,6 +36,7 @@ namespace HospitalManagement.Controllers
             this.logger = logger;
             this.sepcializationService = sepcializationService;
             this.doctorService = doctorService;
+            this.patientService = patientService;
         }
         public IActionResult Index()
         {
@@ -133,7 +135,8 @@ namespace HospitalManagement.Controllers
             {
                 return BadRequest("can not delte this doctor");
             }
-            return RedirectToAction("ListDoctors");
+            //return RedirectToAction("ListDoctors");
+            return Ok(new { redirect = "/Admin/ListDoctors" });
         }
 
         [HttpPost]
@@ -160,7 +163,72 @@ namespace HospitalManagement.Controllers
             return View("getDoctorDetails",doctorVm);
         }
 
-        
+        public IActionResult GetPatients()
+        {
+            var patients = patientService.GetAllPatients().Select( p=> new PatientVm()
+            {
+                FirstName = p.FirstName,
+                LastName = p.LastName,
+                Email = p.Email,
+                Phone = p.PhoneNumber,
+                Id= p.Id
+            }
+            ).ToList();
+            
+            return View(patients);
+        }
+        public async  Task<IActionResult> EditPatient(EditPatientVm vm)
+        {
+            if (ModelState.IsValid)
+            {
+                var patient = await patientService.GetPatientById(vm.Id);
+                if (patient != null)
+                {
+                    patient.FirstName = vm.FirstName;
+                    patient.LastName = vm.LastName;
+                    patient.Email = vm.Email;
+                    patient.PhoneNumber = vm.PhoneNumber;
+                    patient.Gender = vm.Gender;
+                    patient.DateOfBirth = vm.DateOfBirth;
+                    var result = await userManager.UpdateAsync(patient);
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("GetPatients");
+                    }
+                    ModelState.AddModelError(string.Empty, "can not update this patient");
+                }
+                else
+                    ModelState.AddModelError(string.Empty, "this patient does not exist");
+
+            }
+            return View(vm);
+
+        }
+
+       
+        public async Task<IActionResult> GetPatientDetails(string id)
+        {
+            var patient = await patientService.GetPatientById(id);
+            var patientVm = mapper.Map<EditPatientVm>(patient); 
+            return View(patientVm);
+        }
+
+        public async Task<IActionResult> DeletePatient(string email)
+        {
+            var patient = await patientService.GetPatient(p => p.Email == email);
+            if (patient == null)
+            {
+                return NotFound("there is no patient with that email");
+            }
+            var result = await userManager.DeleteAsync(patient);
+            if (!result.Succeeded)
+            {
+                return BadRequest("can not delete this patient");
+            }
+
+            //return RedirectToAction("GetPatients");
+            return Ok(new { redirect = "/Admin/GetPatients" });
+        }
 
 
 

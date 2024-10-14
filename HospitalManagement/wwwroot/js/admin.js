@@ -21,3 +21,26 @@
             patientMenu.addEventListener('click', () => toggleSubButtons(patientMenu));
             medicalRecordsMenu.addEventListener('click', () => toggleSubButtons(medicalRecordsMenu));
         });
+
+
+//$("#GetPatients").click(function (e) {
+//    e.preventDefault(); // Prevent default form submission
+//    /*const id = $("#IdValue").val();*/
+
+
+//    // Make an AJAX request to the controller
+//    $.ajax({
+//        type: "GET",
+//        url: "/Admin/GetPatients",
+//        /*data: { id: id },*/
+//        success: function (response) {
+//            /* $("#ContentID").; */ // Display the result
+
+//            document.documentElement.innerHTML = response;
+
+//        },
+//        error: function () {
+//            alert("An error occurred. Please try again.");
+//        }
+//    });
+//});

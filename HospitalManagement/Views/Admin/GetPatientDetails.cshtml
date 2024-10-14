@@ -1,10 +1,8 @@
-﻿
-@model DoctorVm
-
+﻿@model EditPatientVm
 @{
-    ViewData["Title"] = "getDoctorDetails";
+    ViewData["Title"] = "GetPatientDetails";
     Layout = "~/Views/Shared/Admin_Layout.cshtml";
-    SelectList selectListItems = new SelectList(Model.specializations, "Id", "Name");
+    
 }
 
 @section Style {
@@ -16,11 +14,11 @@
 
 <div class="container">
     <div class="form-section">
-        <h2>Doctor details</h2>
-        <input type="hidden" id="IdValue" value="@Model.Id" />
-        <form asp-action="EditDoctor" asp-controller="Admin" asp-route-id = "@Model.Id" method="post" enctype="multipart/form-data">
+        <h2>Patient details</h2>
+        <input type="hidden" id="IdValue" value="@Model.Email" />
+        <form asp-action="EditPatient" asp-controller="Admin"  method="post" enctype="multipart/form-data">
             <div asp-validation-summary="All" class="text-danger"></div>
-
+            <input type="hidden" asp-for="Id" />
             <div class="input-group">
                 <label asp-for="FirstName"></label>
                 <input class="text" asp-for="FirstName" placeholder="First Name" required />
@@ -34,27 +32,39 @@
             </div>
 
             <div class="input-group">
-                <label asp-for="SpecializationId"></label>
-                <select asp-for="SpecializationId" class="text" asp-items="selectListItems"  >
-                    
-                    <option value= "">Select Sepicalization</option>
-
-                </select>
-                <span asp-validation-for="SpecializationId" class="text-danger"></span>
+                <label asp-for="PhoneNumber"></label>
+                <input class="text" asp-for="PhoneNumber" placeholder="Phone Number" required />
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
             </div>
 
-            
             <div class="input-group">
-                <label asp-for="Salary"></label>
-                <input class="em" asp-for="Salary" placeholder="Salary" required />
-                <span asp-validation-for="Salary" class="text-danger"></span>
+                <label asp-for="Email">Email Address</label>
+                <input class="em" type="email" asp-for="Email" placeholder="Email" required />
+                <span asp-validation-for="Email" class="text-danger"></span>
             </div>
 
 
-            
+            <div class="input-group">
+                <label asp-for="DateOfBirth"></label>
+                <input class="pass" asp-for="DateOfBirth" type="date" required />
+                <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Gender"></label>
+                <select asp-for="Gender" class="form-control">
+                    <option value="">Select Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </select>
+                <span asp-validation-for="Gender" class="text-danger"></span>
+            </div>
 
 
-            <input class= "btn btn-success" type="submit" value="submit edit">
+
+
+
+            <input class="btn btn-success" type="submit" value="submit edit">
             <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
                 Delete
             </button>
@@ -77,8 +87,8 @@
                     </div>
                 </div>
             </div><br />
-            <p><a asp-action="ListDoctors" asp-controller="Admin">Go back</a></p>
-            
+            <p><a asp-action="GetPatients" asp-controller="Admin">Go back</a></p>
+
 
         </form>
     </div>
@@ -89,28 +99,28 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
     <script>
-    //     function confirmDelete() {
-    //         var myModal = document.getElementById('myModal')
-    //         var myInput = document.getElementById('myInput')
+        //     function confirmDelete() {
+        //         var myModal = document.getElementById('myModal')
+        //         var myInput = document.getElementById('myInput')
 
-    //         myModal.addEventListener('shown.bs.modal', function () {
-    //             myInput.focus()
-    //         })
-    //     }
+        //         myModal.addEventListener('shown.bs.modal', function () {
+        //             myInput.focus()
+        //         })
+        //     }
 
         $("#delete").click(function (e) {
             e.preventDefault(); // Prevent default form submission
-            const id = $("#IdValue").val();
-            
+            const email = $("#IdValue").val();
+
 
             // Make an AJAX request to the controller
             $.ajax({
                 type: "GET",
-                url: "/Admin/DeleteDoctorAjax",
-                data: { id: id  },
+                url: "/Admin/DeletePatient",
+                data: { email: email },
                 success: function (response) {
                     /* $("#ContentID").; */ // Display the result
-                    
+
                     // document.documentElement.innerHTML = response;
                     setTimeout(() => {
                         // Use a publicly accessible URL for testing
@@ -118,7 +128,7 @@
                         window.location.href = response.redirect;
                         // redirect after 1 seconds
                     }, 1000)
-                    
+
                 },
                 error: function () {
                     alert("An error occurred. Please try again.");
@@ -126,5 +136,7 @@
             });
         });
 
-    // </script>
+        // </script>
 }
+
+

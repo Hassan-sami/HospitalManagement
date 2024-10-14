@@ -1,12 +1,7 @@
-﻿@model List<DoctorVm>
+﻿@model List<PatientVm>
 
 @{
     Layout = "Admin_Layout";
-}
-@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
 }
 
 
@@ -73,22 +68,22 @@
 }
 
 
+@foreach (var pat in Model)
+{
 
-@foreach(var doc in Model){
-    
-     <a asp-action="getDoctorDetails" asp-controller="Admin" asp-route-id = "@doc.Id" style="text-decoration : none">
+    <a asp-action="GetPatientDetails" asp-controller="Admin" asp-route-id="@pat.Id" style="text-decoration : none">
         <div class="cardalt">
             <img alt="Doctor Image" src="https://storage.googleapis.com/a1aa/image/GA6ptAob0ezAdKTV3sV3srAxizfbBPFbnBEkLx8YjRmednLnA.jpg" />
-            <h3>Dr. @doc.FirstName @doc.LastName</h3>
-            <p>@doc.Specialization</p>
+            <h3>@pat.FirstName @pat.LastName</h3>
+            <p>@pat.Phone</p>
+            <p>@pat.Email</p>
             <div class="social-icons">
                 @* <a href="#"><i class="fab fa-facebook-f"></i></a>
-            <a href="#"><i class="fab fa-twitter"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
-            <a href="#"><i class="fab fa-linkedin-in"></i></a> *@
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-linkedin-in"></i></a> *@
             </div>
         </div>
     </a>
-    
-}
 
+}

@@ -24,6 +24,8 @@ namespace Hospital.BLL.Mappers
             CreateMap<Doctor, Doctor>();
 
 
+            
+            CreateMap<Patient, EditPatientVm>();
             CreateMap<DoctorVm, Doctor>();
             CreateMap<AdminVm, Admin>();
             CreateMap<PatientVm, Patient>();
