@@ -29,7 +29,9 @@ namespace HospitalManagement
             builder.Services.AddScoped<IMedicalRecordRepository, MedicalRecordRepository>();
             builder.Services.AddScoped<IDoctorRepository, DoctorRepository>();
             builder.Services.AddScoped<IPatientService, PatientService>();
-
+            builder.Services.AddScoped<ISepcializationRepo, SepcializationRepo>();
+            builder.Services.AddScoped<ISepcializationService, SepcializationService>();
+            builder.Services.AddScoped<IDoctorService, DoctorService>();
             var connectionString = builder.Configuration.GetConnectionString("defaultConnection");
 
             builder.Services.AddDbContext<HospitalDbContext>(options =>
@@ -64,7 +66,8 @@ namespace HospitalManagement
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
+            
             app.UseAuthorization();
 
             app.MapControllerRoute(

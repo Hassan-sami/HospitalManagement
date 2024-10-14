@@ -1,0 +1,124 @@
+﻿
+@model DoctorVm
+
+@{
+    ViewData["Title"] = "getDoctorDetails";
+    Layout = "~/Views/Shared/Admin_Layout.cshtml";
+    SelectList selectListItems = new SelectList(Model.specializations, "Id", "Name");
+}
+
+@section Style {
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/newregister.css">
+}
+
+
+
+<div class="container">
+    <div class="form-section">
+        <h2>Doctor details</h2>
+        <input type="hidden" id="IdValue" value="@Model.Id" />
+        <form asp-action="EditDoctor" asp-controller="Admin" asp-route-id = "@Model.Id" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="All" class="text-danger"></div>
+
+            <div class="input-group">
+                <label asp-for="FirstName"></label>
+                <input class="text" asp-for="FirstName" placeholder="First Name" required />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+
+            <div class="input-group">
+                <label asp-for="LastName"></label>
+                <input class="text" asp-for="LastName" placeholder="Last Name" required />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+
+            <div class="input-group">
+                <label asp-for="SpecializationId"></label>
+                <select asp-for="SpecializationId" class="text" asp-items="selectListItems"  >
+                    
+                    <option value= "">Select Sepicalization</option>
+
+                </select>
+                <span asp-validation-for="SpecializationId" class="text-danger"></span>
+            </div>
+
+            
+            <div class="input-group">
+                <label asp-for="Salary"></label>
+                <input class="em" asp-for="Salary" placeholder="Salary" required />
+                <span asp-validation-for="Salary" class="text-danger"></span>
+            </div>
+
+
+            
+
+
+            <input class= "btn btn-success" type="submit" value="submit edit">
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Delete
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Delete doctor</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Are you sure ?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" id="delete" class="btn btn-primary">submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div><br />
+            <p><a asp-action="ListDoctors" asp-controller="Admin">Go back</a></p>
+            
+
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+    //     function confirmDelete() {
+    //         var myModal = document.getElementById('myModal')
+    //         var myInput = document.getElementById('myInput')
+
+    //         myModal.addEventListener('shown.bs.modal', function () {
+    //             myInput.focus()
+    //         })
+    //     }
+
+        $("#delete").click(function (e) {
+            e.preventDefault(); // Prevent default form submission
+            const id = $("#IdValue").val();
+            
+
+            // Make an AJAX request to the controller
+            $.ajax({
+                type: "GET",
+                url: "/Admin/DeleteDoctorAjax",
+                data: { id: id  },
+                success: function (response) {
+                    /* $("#ContentID").; */ // Display the result
+                    
+                    document.documentElement.innerHTML = response;
+                    
+                },
+                error: function () {
+                    alert("An error occurred. Please try again.");
+                }
+            });
+        });
+
+    // </script>
+}

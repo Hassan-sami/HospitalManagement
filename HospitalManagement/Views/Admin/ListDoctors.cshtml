@@ -1,0 +1,30 @@
+﻿@model List<DoctorVm>
+
+@{
+    Layout = "Admin_Layout";
+}
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@foreach(var doc in Model){
+    
+     <a asp-action="getDoctorDetails" asp-controller="Admin" asp-route-id = "@doc.Id" style="text-decoration : none">
+        <div class="card">
+            <div class="info">
+                
+            <div class="label">Dr. @doc.FirstName @doc.LastName</div>
+            <div class="number">@doc.Specialization</div>
+
+            </div>
+            <i class="fas fa-user-md"></i>
+        </div>
+    </a>
+    
+}
+
+@section Style {
+    @* <link rel="stylesheet" href="/css/cardStyle.css" /> *@
+    @* <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" /> *@
+} 

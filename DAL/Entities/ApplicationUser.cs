@@ -27,5 +27,7 @@ namespace Hospital.DAL.Entities
         [DataType(DataType.Date)]
         public DateTime DateOfBirth { get; set; }
 
+        public string? Image { get; set; }
+
     }
 }

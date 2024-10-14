@@ -11,12 +11,12 @@
         }
 
     document.addEventListener("DOMContentLoaded", function () {
-            const doctorMenu = document.getElementById('doctorMenu');
+        const doctorMenu = document.getElementById('doctorMenu');
     const appointmentMenu = document.getElementById('appointmentMenu');
     const patientMenu = document.getElementById('patientMenu');
     const medicalRecordsMenu = document.getElementById('medicalRecordsMenu');
 
-            doctorMenu.addEventListener('click', () => toggleSubButtons(doctorMenu));
+        doctorMenu.addEventListener('click', () => toggleSubButtons(doctorMenu));
             appointmentMenu.addEventListener('click', () => toggleSubButtons(appointmentMenu));
             patientMenu.addEventListener('click', () => toggleSubButtons(patientMenu));
             medicalRecordsMenu.addEventListener('click', () => toggleSubButtons(medicalRecordsMenu));

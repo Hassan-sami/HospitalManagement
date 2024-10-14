@@ -18,7 +18,7 @@ namespace Hospital.DAL.Repository.Implementation
 
         public List<Doctor> GetAllDoctors()
         {
-            return _context.Doctors.ToList();
+            return _context.Doctors.Include(d => d.Specialization).ToList();
         }
 
         public async Task<Doctor> GetDoctorById(string id)

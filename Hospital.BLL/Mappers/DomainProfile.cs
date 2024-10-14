@@ -14,12 +14,14 @@ namespace Hospital.BLL.Mappers
         public DomainProfile() 
         {
             CreateMap<RegisterViewModel, Patient>();
+            CreateMap<CreateDoctorViewModel, Doctor>();
             CreateMap<Doctor, DoctorVm>();
             CreateMap<Admin, AdminVm>();
             CreateMap<Patient, PatientVm>();
             CreateMap<MedicalRecord, MedicalRecordVm>();
             CreateMap<Appointment, AppointmentVm>();
 
+            CreateMap<Doctor, Doctor>();
 
 
             CreateMap<DoctorVm, Doctor>();
