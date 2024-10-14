@@ -123,7 +123,7 @@ namespace HospitalManagement.Controllers
             result.specializations = sepcializationService.GetSpecializations();
             return View(result);
         }
-        [HttpGet]
+        [HttpDelete]
         public  async Task<IActionResult> DeleteDoctorAjax(string id)
         {
             var user = await userManager.FindByIdAsync(id);
@@ -213,6 +213,7 @@ namespace HospitalManagement.Controllers
             return View(patientVm);
         }
 
+        [HttpDelete]
         public async Task<IActionResult> DeletePatient(string email)
         {
             var patient = await patientService.GetPatient(p => p.Email == email);
@@ -229,6 +230,8 @@ namespace HospitalManagement.Controllers
             //return RedirectToAction("GetPatients");
             return Ok(new { redirect = "/Admin/GetPatients" });
         }
+
+        
 
 
 

@@ -20,12 +20,12 @@ namespace Hospital.DAL.Entities
 
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 
-        [Required(ErrorMessage = "Gender is required.")]
-        public string Gender { get; set; } 
+        
+        public string? Gender { get; set; } 
 
-        [Required(ErrorMessage = "Date of Birth is required.")]
+        
         [DataType(DataType.Date)]
-        public DateTime DateOfBirth { get; set; }
+        public DateTime? DateOfBirth { get; set; }
 
         public string? Image { get; set; }
 

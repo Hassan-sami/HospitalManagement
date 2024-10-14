@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.DotNet.Scaffolding.Shared;
 using System.Net.Mail;
+using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
 using static Org.BouncyCastle.Crypto.Engines.SM2Engine;
@@ -188,9 +189,66 @@ namespace HospitalManagement.Controllers
         [HttpGet]
 
         [AllowAnonymous]
-        public  IActionResult ExternalLoginCallback(string? returnUrl, string? remoteError)
+        public async Task<IActionResult> ExternalLoginCallback(string? returnUrl, string? remoteError)
         {
-            return Json("string");
+            LogInViewModel loginViewModel = new LogInViewModel
+            {
+                ReturnUrl = returnUrl,
+
+            };
+            if (remoteError != null)
+            {
+
+                ModelState.AddModelError(string.Empty, $"Error Form google {remoteError}");
+                return RedirectToAction("LogIn", loginViewModel);
+            }
+            var info = await signInManager.GetExternalLoginInfoAsync();
+            if (info == null)
+            {
+                ModelState.AddModelError(string.Empty, "Error loading external login information.");
+                return View("LogIn", loginViewModel);
+            }
+            //    var signInResult = await signInManager.ExternalLoginSignInAsync(info.LoginProvider,
+            //info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
+            var signInResult = await signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, false);
+            if (signInResult.Succeeded)
+            {
+                return LocalRedirect(returnUrl ?? "/Home/Index");
+            }
+            else
+            {
+                // Get the email claim value
+                var email = info.Principal.FindFirstValue(ClaimTypes.Email);
+                if (email != null)
+                {
+                    // Create a new user without password if we do not have a user already
+                    var user = await userManager.FindByEmailAsync(email);
+                    if (user == null)
+                    {
+                        user = new Patient
+                        {
+                            UserName = new MailAddress(info.Principal.FindFirstValue(ClaimTypes.Email)).User,
+                            Email = info.Principal.FindFirstValue(ClaimTypes.Email),
+                            FirstName = info.Principal.FindFirstValue(ClaimTypes.GivenName)??"Notfound name",
+                            LastName = info.Principal.FindFirstValue(ClaimTypes.Surname)?? "NotFound Name",
+                            PhoneNumber = info.Principal.FindFirstValue(ClaimTypes.MobilePhone)
+
+                        };
+                        //This will create a new user into the AspNetUsers table without password
+                        await userManager.CreateAsync(user);
+                        await userManager.AddToRoleAsync(user,Role.Patient.ToString());
+                    }
+                    // Add a login (i.e., insert a row for the user in AspNetUserLogins table)
+                    await userManager.AddLoginAsync(user, info);
+                    //Then Signin the User
+                    await signInManager.SignInAsync(user, isPersistent: false);
+                    return LocalRedirect(returnUrl??"/Home/Index");
+                }
+
+                ModelState.AddModelError(string.Empty, "Error loading external login information.");
+                return View("LogIn", loginViewModel);
+
+            }
         }
 
         [HttpGet]
