@@ -17,6 +17,6 @@ public class AppointmentVm
     [Required(ErrorMessage = "Patient is required.")]
     public string PatientId { get; set; }
 
-    [Required(ErrorMessage = "Doctor is required.")]
+    [Required(ErrorMessage = "Doctor is required.") ]       
     public string DoctorId { get; set; }
 }
