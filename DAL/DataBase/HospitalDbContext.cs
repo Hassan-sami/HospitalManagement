@@ -15,9 +15,10 @@
             public DbSet<Patient> Patients { get; set; }
             public DbSet<MedicalRecord> MedicalRecords { get; set; }
             public DbSet<Appointment> Appointments { get; set; }
-           
+        public DbSet<Schedule> Schedules { get; set; }
+        public DbSet<Shift> Shifts { get; set; }
 
-            protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
             {
                 base.OnModelCreating(modelBuilder);
                 //modelBuilder.ApplyConfigurationsFromAssembly(typeof(PatientConfig).Assembly);

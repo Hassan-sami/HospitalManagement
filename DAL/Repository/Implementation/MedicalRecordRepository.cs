@@ -15,9 +15,9 @@ namespace Hospital.DAL.Repository.Implementation
             _context = context;
         }
 
-        public List<MedicalRecord> GetAllMedicalRecords()
+        public IEnumerable<MedicalRecord> GetAllMedicalRecords()
         {
-            return _context.MedicalRecords.Include(m => m.Patient).Include(m => m.Doctor).ToList();
+            return _context.MedicalRecords.Include(m => m.Patient).Include(m => m.Doctor);
         }
 
         public MedicalRecord GetMedicalRecordById(int id)
@@ -26,10 +26,16 @@ namespace Hospital.DAL.Repository.Implementation
                                            .FirstOrDefault(m => m.MedicalRecordID == id);
         }
 
-        public void AddMedicalRecord(MedicalRecord medicalRecord)
+        public async Task<bool> AddMedicalRecord(MedicalRecord medicalRecord)
         {
-            _context.MedicalRecords.Add(medicalRecord);
-            _context.SaveChanges();
+            try
+            {
+                await _context.MedicalRecords.AddAsync(medicalRecord);
+                _context.SaveChanges();
+                return true;
+            }
+            catch { return false; }
+            
         }
 
         public void UpdateMedicalRecord(MedicalRecord medicalRecord)

@@ -35,5 +35,10 @@ namespace Hospital.BLL.Services.Implementation
         {
             return await doctorRepository.GetDoctorById(id);
         }
+
+        public async Task<Doctor> GetDoctorAndSchedulesById(string id)
+        {
+           return await  doctorRepository.GetDoctorAndSchedulesById(id);
+        }
     }
 }

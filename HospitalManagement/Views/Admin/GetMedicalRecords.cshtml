@@ -1,0 +1,108 @@
+﻿@model List<MedicalRecordVm>
+
+@{
+    Layout = "Admin_Layout";
+}
+
+
+@section Style {
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+}
+<div class="input-group">
+    <div class="form-outline" data-mdb-input-init>
+        <input id="search-focus" type="search" id="form1" class="form-control" />
+        <label class="form-label" for="form1">Search</label>
+    </div>
+    <button type="button" class="btn btn-primary" data-mdb-ripple-init>
+        <i class="fas fa-search"></i>
+    </button>
+</div>
+
+@* <table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">First</th>
+            <th scope="col">Last</th>
+            <th scope="col">Handle</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th scope="row">1</th>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td>mdo</td>
+        </tr>
+        <tr>
+            <th scope="row">2</th>
+            <td>Jacob</td>
+            <td>Thornton</td>
+            <td>fat</td>
+        </tr>
+        <tr>
+            <th scope="row">3</th>
+            <td>Larry</td>
+            <td>the Bird</td>
+            <td>twitter</td>
+        </tr>
+    </tbody>
+</table> *@
+
+<table class="table">
+    <thead class="thead-light">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Treatment</th>
+            <th scope="col">Diagnosis</th>
+            <th scope="col">RecordDate</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach(var med in Model)
+        {
+            <tr>
+                <th scope="row">@med.MedicalRecordID</th>
+                <td>@med.Treatment</td>
+                <td>@med.Diagnosis</td>
+                <td>@med.RecordDate</td>
+            </tr>
+        }
+        
+        
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+        const searchFocus = document.getElementById('search-focus');
+        const keys = [
+            { keyCode: 'AltLeft', isTriggered: false },
+            { keyCode: 'ControlLeft', isTriggered: false },
+        ];
+
+        window.addEventListener('keydown', (e) => {
+            keys.forEach((obj) => {
+                if (obj.keyCode === e.code) {
+                    obj.isTriggered = true;
+                }
+            });
+
+            const shortcutTriggered = keys.filter((obj) => obj.isTriggered).length === keys.length;
+
+            if (shortcutTriggered) {
+                searchFocus.focus();
+            }
+        });
+
+        window.addEventListener('keyup', (e) => {
+            keys.forEach((obj) => {
+                if (obj.keyCode === e.code) {
+                    obj.isTriggered = false;
+                }
+            });
+        });
+    </script>
+
+}

@@ -10,6 +10,7 @@ namespace Hospital.DAL.Repository.Abstraction
         Task AddDoctor(Doctor doctor);
         Task UpdateDoctor(Doctor doctor);
         Task DeleteDoctor(string id);
+        Task<Doctor> GetDoctorAndSchedulesById(string id);
         void Dispose();
     }
 }

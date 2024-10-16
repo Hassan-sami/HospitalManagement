@@ -1,0 +1,75 @@
+﻿@model AddmedicalRecordVM
+@{
+    ViewData["Title"] = "Create medical";
+    Layout = "~/Views/Shared/Admin_Layout.cshtml";
+    SelectList DoctorselectListItems = new SelectList(Model.Doctors, "Id", "FirstName");
+    SelectList PatientselectListItems = new SelectList(Model.patients, "Id", "FirstName");
+}
+
+@section Style {
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/newregister.css">
+}
+
+
+
+<div class="container">
+    <div class="form-section">
+        <h2>CreateDoctor</h2>
+
+        <form asp-action="AddMedicalRecord" asp-controller="Admin" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="All" class="text-danger"></div>
+
+            <div class="input-group">
+                <label asp-for="Treatment"></label>
+                <input class="text" asp-for="Treatment" placeholder="Treatment" required />
+                <span asp-validation-for="Treatment" class="text-danger"></span>
+            </div>
+
+            <div class="input-group">
+                <label asp-for="Diagnosis"></label>
+                <input class="text" asp-for="Diagnosis" placeholder="Diagnosis" required />
+                <span asp-validation-for="Diagnosis" class="text-danger"></span>
+            </div>
+
+            
+
+          
+
+            
+
+            <div class="input-group">
+                <label asp-for="RecordDate"></label>
+                <input class="pass" asp-for="RecordDate" type="date" required value="@DateTime.Now.Date" />
+                <span asp-validation-for="RecordDate" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="PatientId"></label>
+                <select asp-for="PatientId" class="form-control" asp-items="PatientselectListItems">
+                    <option value= "0">Select Patient</option>
+
+                </select>
+                <span asp-validation-for="PatientId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DoctorId"></label>
+                <select asp-for="DoctorId" class="form-control" asp-items="DoctorselectListItems">
+                    <option value="0">Select Doctor</option>
+
+                </select>
+                <span asp-validation-for="DoctorId" class="text-danger"></span>
+            </div>
+
+
+            <input class="sub" type="submit" value="Create">
+
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,0 +1,79 @@
+﻿@model EditProfileVm
+@{
+    ViewData["Title"] = "Profile";
+    Layout = "~/Views/Shared/_ProfileLayout.cshtml";
+}
+
+
+
+<div class="container mt-5 profile-container">
+    <!-- Profile Image in Top-Left -->
+    <div class="top-left">
+        @{
+        var image = User.Claims.FirstOrDefault(c => c.Type == "Image")?.Value ?? "default.jpg";
+
+
+        
+        <img id="preview" src="/Images/@image" alt="Profile Image" class="img-thumbnail">
+        }
+    </div>
+
+    <!-- Form Container -->
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8 col-sm-10">
+            <h2 class="mb-4 text-center">Edit Your Profile</h2>
+            <form asp-action="EditRofile" asp-controller="Account" method="post" asp-route-oldemail="@Model.Email" enctype="multipart/form-data">
+                <!-- User Info Section -->
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="FirstName"></label>
+                    <input asp-for="FirstName" class="form-control" placeholder="Enter first name">
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="LastName"></label>
+                    <input asp-for="LastName" class="form-control" placeholder="Enter last name">
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Email"></label>
+                    <input asp-for="Email" class="form-control" placeholder="Enter email">
+                </div>
+
+
+                <div class="form-group">
+                    <label asp-for="PhoneNumber"></label>
+                    <input asp-for="PhoneNumber" class="form-control" placeholder="Enter phone">
+                </div>
+                <div class="form-group">
+                    <label asp-for="DateOfBirth"></label>
+                    <input class="form-control" asp-for="DateOfBirth" type="date" required />
+                    <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                </div>
+                
+                <div class="form-group">
+                    <label asp-for="Gender"></label>
+                    <select asp-for="Gender" class="form-control">
+                        <option value="">Select Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                    <span asp-validation-for="Gender" class="text-danger"></span>
+                </div>
+                <!-- Image Upload Section -->
+                <div class="form-group">
+                    <label for="ImageFile">Image</label>
+                    <input type="file" class="form-control-file" name= "ImageFile" value="ImageFile" id="profileImage">
+                    <small class="form-text text-muted">Upload a new profile picture.</small>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="form-group text-center">
+                    <button type="submit" class="btn btn-primary btn-block">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+

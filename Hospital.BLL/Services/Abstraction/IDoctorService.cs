@@ -11,6 +11,8 @@ namespace Hospital.BLL.Services.Abstraction
     {
         List<Doctor> GetAllDoctors();
         List<DoctorVm> GetDoctorVms();
-        public Task<Doctor> DoctorByIdAsync(string id);
+        Task<Doctor> DoctorByIdAsync(string id);
+
+        Task<Doctor> GetDoctorAndSchedulesById(string id);
     }
 }

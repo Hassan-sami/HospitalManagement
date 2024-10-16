@@ -30,11 +30,9 @@
                 
             </li>
             <li id="appointmentMenu">
-                <i class="fas fa-calendar-check"></i> Appointment
-                <button class="button">Create Appointment</button>
-                <button class="button">Edit Appointment</button>
-                <button class="button">Delete Appointment</button>
-                <button class="button">Appointment List</button>
+                <i class="fas fa-calendar-check"></i> Schedule
+                <a class="button" asp-action = "CreateSchedule" asp-controller = "Admin">Create Shchedule</a>
+                <a class="button" asp-action="CreateShift" asp-controller="Admin">Create shift</a>
             </li>
             <li id="patientMenu">
                 <i class="fas fa-procedures"></i> Patient
@@ -42,10 +40,8 @@
             </li>
             <li id="medicalRecordsMenu">
                 <i class="fas fa-file-medical"></i> Medical Records
-                <button class="button">Add Medical Record</button>
-                <button class="button">Edit Medical Record</button>
-                <button class="button">Delete Medical Record</button>
-                <button class="button">Medical Records List</button>
+                <a class="button" asp-action="AddMedicalRecord" asp-controller="Admin">AddRecord</a>
+                <a class="button" asp-action="GetMedicalRecords" asp-controller="Admin">Medical Records List</a>
             </li>
             <a asp-action="LogOut" asp-controller="Account">
             <li class="logout"><i class="fas fa-sign-out-alt"></i>Logout</li></a>

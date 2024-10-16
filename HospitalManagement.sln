@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hospital.DAL", "DAL\Hospita
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hospital.BLL", "Hospital.BLL\Hospital.BLL.csproj", "{E2B40ECA-F4B3-4DC9-BB8D-E60315A2F83A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication6", "WebApplication6\WebApplication6.csproj", "{E8CD6B89-E42A-4F0E-9D3A-8D95A8CB3223}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApplication6", "WebApplication6\WebApplication6.csproj", "{E8CD6B89-E42A-4F0E-9D3A-8D95A8CB3223}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

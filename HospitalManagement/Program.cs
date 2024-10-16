@@ -25,6 +25,7 @@ namespace HospitalManagement
 
             builder.Services.AddScoped<IEmailSender, EmailSender>();
             builder.Services.AddScoped<IPatientRepository, PatientRepository>();
+            builder.Services.AddScoped<IShiftRepo, ShiftRepo>();
             builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
             builder.Services.AddScoped<IMedicalRecordRepository, MedicalRecordRepository>();
             builder.Services.AddScoped<IDoctorRepository, DoctorRepository>();
@@ -32,6 +33,10 @@ namespace HospitalManagement
             builder.Services.AddScoped<ISepcializationRepo, SepcializationRepo>();
             builder.Services.AddScoped<ISepcializationService, SepcializationService>();
             builder.Services.AddScoped<IDoctorService, DoctorService>();
+            builder.Services.AddScoped<IShiftService, ShiftService>();
+            builder.Services.AddScoped<ImedicalRecordService,MedicalRecordService>();
+            builder.Services.AddScoped<IScheduleRepo, ScheduleRepo>();
+            builder.Services.AddScoped<IScheduleService, ScheduleService>();
             var connectionString = builder.Configuration.GetConnectionString("defaultConnection");
 
             builder.Services.AddDbContext<HospitalDbContext>(options =>
@@ -46,7 +51,10 @@ namespace HospitalManagement
                    
                 });
 
-            builder.Services.AddIdentity<ApplicationUser,IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
+            builder.Services.AddIdentity<ApplicationUser,IdentityRole>(options => {
+                options.SignIn.RequireConfirmedAccount = true;
+                options.User.RequireUniqueEmail = true;
+                })
                 .AddEntityFrameworkStores<HospitalDbContext>().AddDefaultTokenProviders();
             builder.Services.AddAutoMapper(option => option.AddProfile<DomainProfile>());
 

@@ -65,5 +65,11 @@ namespace Hospital.DAL.Repository.Implementation
 
             disposed = true;
         }
+
+        public async Task<Doctor> GetDoctorAndSchedulesById(string id)
+        {
+           return await _context.Doctors.Include(d => d.Schedules).FirstOrDefaultAsync(doc => doc.Id == id);
+
+        }
     }
 }

@@ -10,6 +10,7 @@ using System.Net.Mail;
 using System.Text.Encodings.Web;
 using System.Text;
 using Hospital.BLL.Services.Abstraction;
+using Hospital.BLL.Services.Implementation;
 
 namespace HospitalManagement.Controllers
 {
@@ -23,11 +24,17 @@ namespace HospitalManagement.Controllers
         private readonly ISepcializationService sepcializationService;
         private readonly IDoctorService doctorService;
         private readonly IPatientService patientService;
+        private readonly ImedicalRecordService medicalRecordService;
+        private readonly IShiftService shiftService;
+        private readonly IScheduleService scheduleService;
 
         public AdminController(IMapper mapper, IEmailSender sender,
             UserManager<ApplicationUser> userManager, 
             SignInManager<ApplicationUser> signInManager,
-            ILogger<AccountController> logger, ISepcializationService sepcializationService, IDoctorService doctorService,IPatientService patientService)
+            ILogger<AccountController> logger, ISepcializationService sepcializationService,
+            IDoctorService doctorService,IPatientService patientService,
+            ImedicalRecordService medicalRecordService, IShiftService shiftService
+            ,IScheduleService scheduleService)
         {
             this.mapper = mapper;
             this.sender = sender;
@@ -37,6 +44,9 @@ namespace HospitalManagement.Controllers
             this.sepcializationService = sepcializationService;
             this.doctorService = doctorService;
             this.patientService = patientService;
+            this.medicalRecordService = medicalRecordService;
+            this.shiftService = shiftService;
+            this.scheduleService = scheduleService;
         }
         public IActionResult Index()
         {
@@ -231,11 +241,114 @@ namespace HospitalManagement.Controllers
             return Ok(new { redirect = "/Admin/GetPatients" });
         }
 
-        
+        public IActionResult GetMedicalRecords()
+        {
+            var model = medicalRecordService.GetMedicalRecordsWithPatientAndDoctor().Select(med => new MedicalRecordVm
+            {
+                MedicalRecordID = med.MedicalRecordID,
+                Diagnosis = med.Diagnosis,
+                Treatment = med.Treatment,
+                RecordDate = med.RecordDate,
+                PatientName = med.Patient?.FirstName ??"" + " " + med.Patient?.LastName?? "",
+                DoctorName = med.Doctor?.FirstName ?? "" + " " + med.Doctor?.LastName ?? "",
+            }).ToList();
+            return View(model);
+        }
+
+        public  IActionResult AddMedicalRecord()
+        {
+            var CreateMedicalRecord = new AddmedicalRecordVM()
+            {
+                patients = patientService.GetAllPatients(),
+                Doctors = doctorService.GetAllDoctors()
+
+            };
+
+            return View(CreateMedicalRecord);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddMedicalRecord(AddmedicalRecordVM addmedicalRecordVM)
+        {
+            if (ModelState.IsValid)
+            {
+                var medicalRecord = mapper.Map<MedicalRecord>(addmedicalRecordVM);
+                if (await medicalRecordService.AddMedicalRecord(medicalRecord))
+                {
+                    return RedirectToAction("GetMedicalRecords");
+                }
+                ModelState.AddModelError(string.Empty, "can not add this record try again ");
+            }
+
+            return View(addmedicalRecordVM);
+        }
 
 
+        public IActionResult CreateSchedule()
+        {
+            var CreateSchedule = new CreateScheduleVM()
+            {
+                Doctors = doctorService.GetAllDoctors(),
+                Shifts = shiftService.GetShifts().ToList(),
+            };
+            return View(CreateSchedule);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateSchedule(CreateScheduleVM createScheduleVM)
+        {
+            if (ModelState.IsValid)
+            {
+                var docSchedules = await doctorService.GetDoctorAndSchedulesById(createScheduleVM.DoctorId);
+                if(docSchedules != null)
+                {
+                    if (docSchedules.Schedules != null && docSchedules.Schedules.Any(sec =>
+                    sec.DoctorId == createScheduleVM.DoctorId
+                    && sec.Date == sec.Date
+                    && sec.ShiftId == createScheduleVM.ShiftId
+                    && sec.Status == createScheduleVM.Status))
+                    {
+                        ModelState.AddModelError(string.Empty, "This schedule added to this doc already");
+                        return View(createScheduleVM);
+                    }
+                        
+                    var schedule = mapper.Map<Schedule>(createScheduleVM);
+                    if(await scheduleService.AddSchedule(schedule))
+                    {
+                        return RedirectToAction("Index");
+                    }
+                    ModelState.AddModelError(string.Empty, "can't add this schedule");
+                }
+                ModelState.AddModelError(string.Empty, "doctor not found");
 
+            }
+            return View(createScheduleVM);
+        }
+        [HttpGet]
 
-
+        public IActionResult CreateShift()
+        {
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateShift(CreateShiftVm model)
+        {
+            if (ModelState.IsValid)
+            {
+                if(shiftService.GetShifts().Any(s => s.ShiftType == model.ShiftType && s.EndTIme > model.StartTime))
+                {
+                    ModelState.AddModelError(string.Empty, "there is a conflict shift");
+                    return View(model);
+                }
+                var shift = mapper.Map<Shift>(model);
+                if(await shiftService.AddShift(shift))
+                {
+                    return RedirectToAction("Index");
+                }
+                ModelState.AddModelError(string.Empty, "can' add this Shift");
+            }
+            return View(model);
+        }
     }
 }

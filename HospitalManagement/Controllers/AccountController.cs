@@ -5,10 +5,13 @@ using Hospital.BLL.Services.Abstraction;
 using Hospital.DAL.Entities;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.DotNet.Scaffolding.Shared;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
+using NuGet.Packaging;
 using System.Net.Mail;
 using System.Security.Claims;
 using System.Text;
@@ -153,11 +156,14 @@ namespace HospitalManagement.Controllers
             {
                 var result = await signInManager.PasswordSignInAsync(new MailAddress(viewModel.Email).User,
                     viewModel.Password, viewModel.RememberMe, lockoutOnFailure: false);
+                
                 if (result.Succeeded)
                 {
                     logger.LogInformation("User logged in.");
-                    if(viewModel.ReturnUrl != null)
+                    
+                    if (viewModel.ReturnUrl != null)
                         return LocalRedirect(viewModel.ReturnUrl);
+
                     return RedirectToAction("Index","Home");
                 }
                 ModelState.AddModelError("", " Email or passowrd wrong try again");
@@ -213,6 +219,7 @@ namespace HospitalManagement.Controllers
             var signInResult = await signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, false);
             if (signInResult.Succeeded)
             {
+                
                 return LocalRedirect(returnUrl ?? "/Home/Index");
             }
             else
@@ -237,6 +244,7 @@ namespace HospitalManagement.Controllers
                         //This will create a new user into the AspNetUsers table without password
                         await userManager.CreateAsync(user);
                         await userManager.AddToRoleAsync(user,Role.Patient.ToString());
+                        
                     }
                     // Add a login (i.e., insert a row for the user in AspNetUserLogins table)
                     await userManager.AddLoginAsync(user, info);
@@ -362,6 +370,89 @@ namespace HospitalManagement.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        [HttpGet]
+        [Authorize]
+        public IActionResult Profile()
+        {
+            var id = User.FindFirst(ClaimTypes.NameIdentifier)?.Value?? "";
+            if(id == "")
+                return RedirectToAction("Index", "Home");
+            
+            var user = userManager.Users.FirstOrDefault(u => u.Id == id);
+            if (user == null)
+                return RedirectToAction("Index", "Home");
+            var viewModel = mapper.Map<EditProfileVm>(user);
+
+
+            return View(viewModel);
+        }
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> EditRofile(string oldemail,IFormFile? ImageFile, EditProfileVm model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await userManager.FindByEmailAsync(oldemail);
+                if (model.Email != oldemail && ( userManager.Users.Where(u => u.Email == model.Email).Count()) == 0)
+                {
+                     
+                    var code = await userManager.GenerateChangeEmailTokenAsync(user,model.Email);
+                    code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                    var callBackAction = Url.Action(new Microsoft.AspNetCore.Mvc.Routing.UrlActionContext()
+                    {
+                        Action = "ChangeEmail",
+                        Controller = "Account",
+                        Values = new { code = code,email = oldemail,newEmail = model.Email },
+                        //Host = Request.Host.Value,
+                        Protocol = Request.Scheme,
+
+
+                    });
+                    var sent = await sender.send(oldemail, "Change Email",
+                         $"Please change your email by <a href='{HtmlEncoder.Default.Encode(callBackAction)}'>clicking here</a>.");
+                   
+                    
+                }
+                if (ImageFile != null) 
+                {
+                    model.Image = ImageFile?.FileName ?? string.Empty;
+                    //using (MemoryStream stream = new MemoryStream()) 
+                    //{
+                        
+                        //await ImageFile.CopyToAsync(stream);
+                        using (var stream1 = System.IO.File.Create(Environment.CurrentDirectory + "\\wwwroot\\Images" + $"\\{model.Image}"))
+                        {
+                            await ImageFile.CopyToAsync(stream1);
+                        }
+                        var claim = (await userManager.GetClaimsAsync(user)).FirstOrDefault(c => c.Type == "Image");
+                        if (claim != null)
+                        {
+                            await userManager.RemoveClaimAsync(user, claim);
+                        }
+                        await userManager.AddClaimAsync(user, new Claim("Image", model.Image));
+                    //}
+                }
+                
+
+                var result = (ApplicationUser)mapper.Map(model, user, model.GetType(), user.GetType());
+                result.Email = oldemail;
+                if ((await userManager.UpdateAsync(result)).Succeeded)
+                    return RedirectToAction("Profile");
+                ModelState.AddModelError(string.Empty, "can't update this user");
+                
+            }
+            return View("Profile",model);
+        }
+        [HttpGet]
+        public async Task<IActionResult> ChangeEmail(string code,string email,string newEmail)
+        {
+            var decodedCoed = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
+            var user = await userManager.FindByEmailAsync(email);
+           await userManager.ChangeEmailAsync(user,newEmail,decodedCoed);
+            user.UserName = new MailAddress(newEmail).User;
+            await userManager.UpdateAsync(user);
+            return RedirectToAction("Profile");
+        }
 
     }
 }

@@ -19,6 +19,7 @@ namespace Hospital.DAL.Entities
         
         public Specialization? Specialization { get; set; }
 
+        public List<Schedule>? Schedules { get; set; }
         public List<Appointment>? Appointments { get; set; }
         public List<MedicalRecord>? MedicalRecords { get; set; }
     }

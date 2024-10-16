@@ -1,0 +1,82 @@
+﻿@model CreateScheduleVM
+@{
+    ViewData["Title"] = "CreateSchedule";
+    Layout = "~/Views/Shared/Admin_Layout.cshtml";
+    SelectList DoctorselectListItems = new SelectList(Model.Doctors, "Id", "Name");
+    
+}
+
+
+
+@section Style {
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/newregister.css">
+}
+
+
+
+<div class="container">
+    <div class="form-section">
+        <h2>Create schedule</h2>
+
+        <form asp-action="CreateSchedule" asp-controller="Admin" method="post" >
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="input-group">
+                <label asp-for="Date"></label>
+                <input class="pass" asp-for="Date" type="date" required value="@DateTime.Now.ToString("MM/dd/yyyy")" />
+                <span asp-validation-for="Date" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Status"></label>
+                <select asp-for="Status" class="form-control">
+                    <option value="">Select Status</option>
+                    <option value="0">Assigned</option>
+                    <option value="1">Unavailable</option>
+                </select>
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ShiftId"></label>
+                <select asp-for="ShiftId" class="form-control">
+                    <option value="">Select Shift</option>
+                    @if (Model.Shifts != null)
+                    {
+                        @foreach (var shif in Model.Shifts)
+                        {
+                            <option value="@shif.ShiftId">@shif.ShiftType |@shif.StartTIme - @shif.EndTIme</option>
+                        }
+                    }
+
+                </select>
+                <span asp-validation-for="ShiftId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DoctorId"></label>
+                <select asp-for="DoctorId" class="form-control">
+                    <option value="">Select Doctor</option>
+                    @if(Model.Doctors != null)
+                    {
+                        @foreach (var doc in Model.Doctors)
+                        {
+                            <option value="@doc.Id">@doc.FirstName @doc.LastName</option>
+                        }
+                    }
+                    
+                </select>
+                <span asp-validation-for="DoctorId" class="text-danger"></span>
+            </div>
+
+            <input class="sub" type="submit" value="Create">
+
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+
