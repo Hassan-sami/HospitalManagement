@@ -1,4 +1,5 @@
-﻿@{
+﻿@model MainVm
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -41,74 +42,48 @@
 <h2 id="doctors" style="text-align: center; margin-top: 40px; color: #333;">Meet Our Doctors</h2>
 
 <div class="container">
+    @if(Model.Doctors != null)
+    {
+        @if (User.Identity.IsAuthenticated)
+        {
+            @foreach (var doc in Model.Doctors)
+            {
+                var Image = string.IsNullOrEmpty(doc.Image) ? "defaultDoc.jpg" : doc.Image;
 
-    <div class="card">
-        <img alt="Doctor Image" src="https://storage.googleapis.com/a1aa/image/GA6ptAob0ezAdKTV3sV3srAxizfbBPFbnBEkLx8YjRmednLnA.jpg" />
-        <h3>Dr. Emily Stone</h3>
-        <p>Cardiologist</p>
-        <div class="social-icons">
-            <a href="#"><i class="fab fa-facebook-f"></i></a>
-            <a href="#"><i class="fab fa-twitter"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
-            <a href="#"><i class="fab fa-linkedin-in"></i></a>
-        </div>
-    </div>
-    <div class="card">
-        <img alt="Doctor Image" src="https://storage.googleapis.com/a1aa/image/GA6ptAob0ezAdKTV3sV3srAxizfbBPFbnBEkLx8YjRmednLnA.jpg" />
-        <h3>Dr. Michael Green</h3>
-        <p>Neurologist</p>
-        <div class="social-icons">
-            <a href="#"><i class="fab fa-facebook-f"></i></a>
-            <a href="#"><i class="fab fa-twitter"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
-            <a href="#"><i class="fab fa-linkedin-in"></i></a>
-        </div>
-    </div>
-    <div class="card">
-        <img alt="Doctor Image" src="https://storage.googleapis.com/a1aa/image/GA6ptAob0ezAdKTV3sV3srAxizfbBPFbnBEkLx8YjRmednLnA.jpg" />
-        <h3>Dr. Sarah Mitchell</h3>
-        <p>Pediatrician</p>
-        <div class="social-icons">
-            <a href="#"><i class="fab fa-facebook-f"></i></a>
-            <a href="#"><i class="fab fa-twitter"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
-            <a href="#"><i class="fab fa-linkedin-in"></i></a>
-        </div>
-    </div>
-    <div class="card">
-        <img alt="Doctor Image" src="https://storage.googleapis.com/a1aa/image/GA6ptAob0ezAdKTV3sV3srAxizfbBPFbnBEkLx8YjRmednLnA.jpg" />
-        <h3>Dr. David Carter</h3>
-        <p>Orthopedic Surgeon</p>
-        <div class="social-icons">
-            <a href="#"><i class="fab fa-facebook-f"></i></a>
-            <a href="#"><i class="fab fa-twitter"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
-            <a href="#"><i class="fab fa-linkedin-in"></i></a>
-        </div>
-    </div>
-    <div class="card">
-        <img alt="Doctor Image" src="https://storage.googleapis.com/a1aa/image/GA6ptAob0ezAdKTV3sV3srAxizfbBPFbnBEkLx8YjRmednLnA.jpg" />
-        <h3>Dr. Linda Brown</h3>
-        <p>General Practitioner</p>
-        <div class="social-icons">
-            <a href="#"><i class="fab fa-facebook-f"></i></a>
-            <a href="#"><i class="fab fa-twitter"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
-            <a href="#"><i class="fab fa-linkedin-in"></i></a>
-        </div>
-    </div>
-    <div class="card">
-        <img alt="Doctor Image" src="https://storage.googleapis.com/a1aa/image/GA6ptAob0ezAdKTV3sV3srAxizfbBPFbnBEkLx8YjRmednLnA.jpg" />
-        <h3>Dr. Chris Johnson</h3>
-        <p>Dermatologist</p>
-        <div class="social-icons">
-            <a href="#"><i class="fab fa-facebook-f"></i></a>
-            <a href="#"><i class="fab fa-twitter"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
-            <a href="#"><i class="fab fa-linkedin-in"></i></a>
-        </div>
-    </div>
+                <a asp-action="GetDoctorDetails" asp-controller="Patient" asp-route-id = "@doc.Id" style="text-decoration:none;">
+                    <div class="card">
+                        <img alt="Doctor Image" src="/Images/@Image" />
+                        <h3>Dr. @doc.FirstName @doc.LastName</h3>
+                        <p>@doc.Specialization?.Name</p>
+                        <div class="social-icons">
+                        </div>
+                    </div>
+                </a>
+            }
 
+        }
+        else
+        {
+            @foreach (var doc in Model.Doctors)
+            {
+                var Image = string.IsNullOrEmpty(doc.Image) ? "defaultDoc.jpg" : doc.Image;
+
+                
+                    <div class="card">
+                        <img alt="Doctor Image" src="/Images/@Image" />
+                        <h3>Dr. @doc.FirstName @doc.LastName</h3>
+                        <p>@doc.Specialization?.Name</p>
+                        <div class="social-icons">
+                        </div>
+                    </div>
+                
+            }
+        }
+        
+    }
+    
+    
+    
 
     <!-- Our Blogs -->
 

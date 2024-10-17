@@ -134,7 +134,7 @@ h1 {
     padding: 20px;
 }
 
-.card {
+/*.card {
     background-color: #fff;
     border: 2px solid #87CEEB;
     border-radius: 10px;
@@ -143,13 +143,13 @@ h1 {
     text-align: center;
     padding: 20px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: box-shadow 0.3s ease, transform 0.3s ease; /* Added transition */
-}
+    transition: box-shadow 0.3s ease, transform 0.3s ease;*/ /* Added transition */
+/*}
 
     .card:hover {
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Increased shadow on hover */
-        transform: translateY(-5px); /* Slightly lift the card on hover */
-    }
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);*/ /* Increased shadow on hover */
+        /*transform: translateY(-5px);*/ /* Slightly lift the card on hover */
+    /*}
 
     .card img {
         width: 100%;
@@ -188,7 +188,7 @@ h1 {
             .card .social-icons a:hover {
                 background-color: #87CEEB;
                 color: #fff;
-            }
+            }*/
 
 
 .header {

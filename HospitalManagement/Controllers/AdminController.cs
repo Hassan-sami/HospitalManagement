@@ -67,6 +67,7 @@ namespace HospitalManagement.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateDoctor(CreateDoctorViewModel registerViewModel)
         {
+            registerViewModel.Specializations = sepcializationService.GetSpecializations();
             if (ModelState.IsValid)
             {
                 var user = mapper.Map<Doctor>(registerViewModel);

@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using Hospital.BLL.Helpers
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -56,9 +57,24 @@
             <nav>
 
                 <a asp-action="AboutUs" asp-controller="Home">About Us </a> <!-- Link to Statistics Section -->
-                <a href="#services">Services</a>
-                <a href="#doctors">Our Doctors</a> <!-- New link for Our Doctors -->
+                @if (!User.Identity.IsAuthenticated)
+                {
+                    <a href="#services">Services</a>
+                    <a href="#doctors">Our Doctors</a> <!-- New link for Our Doctors -->
+                }
+                @if (User.Identity.IsAuthenticated && User.IsInRole(Role.Patient.ToString()))
+                {
+                    <a asp-action="GetMedicalRecords" asp-controller="Patient">My Medical Records</a>
+                    <a asp-action="ListAppointments" asp-controller="Patient">My Appointments</a>
+                }
+
                 <a href="#Contact">Contact</a>
+                @if (User.IsInRole(Role.Patient.ToString()))
+                {
+
+                    <a asp-action="AddAppointment" asp-controller="Patient">request Appointment</a>
+                }
+
             </nav>
 
             <div class="auth-buttons">
@@ -73,21 +89,21 @@
                     <a asp-action="Register" asp-controller="Account">Create Account</a>
                 }
 
+                @if (User?.Identity?.IsAuthenticated ?? false)
+                {
 
+
+                    var image = User.Claims.FirstOrDefault(c => c.Type == "Image")?.Value ?? "default.jpg";
+
+                    <a asp-controller="Account" asp-action="Profile">
+                        <img class="rounded-circle img-fluid" alt="avatar1" src="/Images/@image" style="object-fit : fill;" />
+                    </a>
+                }
             </div>
-            @if (User?.Identity?.IsAuthenticated ?? false)
-            {
-                
-                var image = User.Claims.FirstOrDefault(c => c.Type == "Image")?.Value ?? "default.jpg";
-                
-            
-                    <a  asp-controller="Account" asp-action="Profile">
-                    <img class="rounded-circle" alt="avatar1" src="~/Images/@image" style="object-fit : fill;" />
-                    </a>   
 
-            }
         </div>
     </div>
+
     @RenderBody()
     <div class="footer">
         <div>

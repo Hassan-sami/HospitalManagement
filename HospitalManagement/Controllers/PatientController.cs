@@ -16,14 +16,16 @@ namespace HospitalManagement.Controllers
         private readonly IPatientService patientService;
         private readonly IMapper mapper;
         private readonly IAppointmentService appointmentService;
+        private readonly ImedicalRecordService medicalRecordService;
 
         public PatientController(IDoctorService doctorService, IPatientService patientService
-            , IMapper mapper, IAppointmentService appointmentService)
+            , IMapper mapper, IAppointmentService appointmentService, ImedicalRecordService medicalRecordService)
         {
             this.doctorService = doctorService;
             this.patientService = patientService;
             this.mapper = mapper;
             this.appointmentService = appointmentService;
+            this.medicalRecordService = medicalRecordService;
         }
 
         [HttpGet]
@@ -132,6 +134,20 @@ namespace HospitalManagement.Controllers
                 ModelState.AddModelError(string.Empty, "Please Enter the Date greater than today or equal!!");
             }
             return View(model);
+        }
+
+        public IActionResult GetMedicalRecords()
+        {
+            
+            return View(medicalRecordService.
+                GetMedicalRecordsWithPatientAndDoctor().Where(m => m.PatientID == User.FindFirstValue(ClaimTypes.NameIdentifier)).OrderBy(med => med.RecordDate));
+        }
+        public async Task<IActionResult> GetDoctorDetails(string? id)
+        {
+            if (id == null)
+                return RedirectToAction("Index", "Home");
+            var doc = await doctorService.GetDoctorAndSchedulesById(id);
+            return View(doc);
         }
 
 
