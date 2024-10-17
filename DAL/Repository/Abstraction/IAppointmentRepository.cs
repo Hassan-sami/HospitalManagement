@@ -1,5 +1,6 @@
 ﻿using Hospital.DAL.Entities;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace Hospital.DAL.Repository.Abstraction
 {
@@ -10,6 +11,7 @@ namespace Hospital.DAL.Repository.Abstraction
         Task AddAppointment(Appointment appointment);
         Task UpdateAppointment(Appointment appointment);
         Task DeleteAppointment(int id);
+        IEnumerable<Appointment> GetAppointments(Expression<Func<Appointment, bool>> predicate);
         void Dispose();
     }
 }

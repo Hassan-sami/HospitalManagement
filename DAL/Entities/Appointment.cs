@@ -10,6 +10,9 @@ namespace Hospital.DAL.Entities
         public int AppointmentID { get; set; }
 
         [Required(ErrorMessage = "Appointment date is required.")]
+
+        [DataType(DataType.Date)]
+
         public DateTime AppointmentDate { get; set; }
 
         [Required(ErrorMessage = "Status is required.")]

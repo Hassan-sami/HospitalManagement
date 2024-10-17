@@ -20,6 +20,7 @@
         <h2>Create schedule</h2>
 
         <form asp-action="CreateSchedule" asp-controller="Admin" method="post" >
+            <div class="text-success" id="Success">@ViewBag.Success</div>
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="input-group">
                 <label asp-for="Date"></label>
@@ -77,6 +78,13 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+    <script>
+
+        setTimeout(function () {
+            document.getElementById("Success").innerHTML = "";
+        }, 5000);
+
+    </script>
 }
 
 

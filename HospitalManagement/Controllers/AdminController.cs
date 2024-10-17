@@ -82,6 +82,7 @@ namespace HospitalManagement.Controllers
                         ModelState.AddModelError(string.Empty, "error try again");
 
                         await userManager.DeleteAsync(user);
+                        
 
                         return View(registerViewModel);
                     }
@@ -107,7 +108,13 @@ namespace HospitalManagement.Controllers
 
                         return View(registerViewModel);
                     }
-                    return RedirectToAction("Registered");
+                    ViewBag.Success = "Created !!";
+                    CreateDoctorViewModel createDoctorViewModel = new CreateDoctorViewModel()
+                    {
+                        Specializations = sepcializationService.GetSpecializations()
+                    };
+
+                    return View(createDoctorViewModel);
                 }
                 foreach (var error in result.Errors)
                 {
@@ -280,7 +287,9 @@ namespace HospitalManagement.Controllers
                 ModelState.AddModelError(string.Empty, "can not add this record try again ");
             }
 
-            return View(addmedicalRecordVM);
+            addmedicalRecordVM.patients = patientService.GetAllPatients();
+            addmedicalRecordVM.Doctors = doctorService.GetAllDoctors();
+            return View("AddMedicalRecord",addmedicalRecordVM);
         }
 
 
@@ -315,7 +324,13 @@ namespace HospitalManagement.Controllers
                     var schedule = mapper.Map<Schedule>(createScheduleVM);
                     if(await scheduleService.AddSchedule(schedule))
                     {
-                        return RedirectToAction("Index");
+                        ViewBag.Success = "Added!!!";
+                        var CreateSchedule = new CreateScheduleVM()
+                        {
+                            Doctors = doctorService.GetAllDoctors(),
+                            Shifts = shiftService.GetShifts().ToList(),
+                        };
+                        return View(CreateSchedule);
                     }
                     ModelState.AddModelError(string.Empty, "can't add this schedule");
                 }

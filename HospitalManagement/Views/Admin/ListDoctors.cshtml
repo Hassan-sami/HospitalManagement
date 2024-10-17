@@ -145,7 +145,10 @@
     
      <a asp-action="getDoctorDetails" asp-controller="Admin" asp-route-id = "@doc.Id" style="text-decoration : none">
         <div class="cardalt">
-            <img alt="Doctor Image" src="https://storage.googleapis.com/a1aa/image/GA6ptAob0ezAdKTV3sV3srAxizfbBPFbnBEkLx8YjRmednLnA.jpg" />
+            @{
+                    var image = User.Claims.FirstOrDefault(c => c.Type == "Image")?.Value ?? "default.jpg";
+            }
+            <img alt="Doctor Image" src="/Images/@image" style="height : 150px; width :150px; " />
             <h3>Dr. @doc.FirstName @doc.LastName</h3>
             <p>@doc.Specialization</p>
             <div class="social-icons">

@@ -19,6 +19,7 @@
         <h2>CreateDoctor</h2>
         
         <form asp-action="CreateDoctor" asp-controller="Admin" method="post" enctype="multipart/form-data">
+            <div class="text-success" id= "Success">@ViewBag.Success</div>
             <div asp-validation-summary="All" class="text-danger"></div>
 
             <div class="input-group">
@@ -95,6 +96,14 @@
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        
     }
+    <script>
+
+        setTimeout(function () {
+            document.getElementById("Success").innerHTML = "";
+        }, 5000);
+
+    </script>
 }
 

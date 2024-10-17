@@ -25,7 +25,7 @@ namespace Hospital.DAL.Repository.Implementation
 
         public async Task<Patient> GetPatientById(string id)
         {
-            return await _context.Patients.FindAsync(id);
+            return (await _context.Patients.FindAsync(id));
         }
 
         public async Task AddPatient(Patient patient)

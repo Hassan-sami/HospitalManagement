@@ -163,7 +163,10 @@ namespace HospitalManagement.Controllers
                     
                     if (viewModel.ReturnUrl != null)
                         return LocalRedirect(viewModel.ReturnUrl);
-
+                    //if (User.IsInRole("Patient"))
+                    //    return RedirectToAction("Index", "Patient");
+                    //if (User.IsInRole("Doctor"))
+                    //    return RedirectToAction("Index", "Doctor");
                     return RedirectToAction("Index","Home");
                 }
                 ModelState.AddModelError("", " Email or passowrd wrong try again");
@@ -424,12 +427,14 @@ namespace HospitalManagement.Controllers
                         {
                             await ImageFile.CopyToAsync(stream1);
                         }
+                         
                         var claim = (await userManager.GetClaimsAsync(user)).FirstOrDefault(c => c.Type == "Image");
                         if (claim != null)
                         {
                             await userManager.RemoveClaimAsync(user, claim);
                         }
                         await userManager.AddClaimAsync(user, new Claim("Image", model.Image));
+                        
                     //}
                 }
                 

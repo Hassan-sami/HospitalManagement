@@ -1,0 +1,94 @@
+﻿@using Hospital.DAL.Entities
+@model List<Appointment>
+@{
+    ViewData["Title"] = "ListAppointments";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+<div class="container d-flex justify-content-center">
+    <div class="table-responsive" style="max-width: 1000px; margin: 0 auto;">
+        <h2 class="text-center">List Of Appointments</h2>
+
+<h4>Description:</h4>
+<h5>1. &nbsp; You Have to wait until your Appointment is Approved.</h5>
+<h5>2. &nbsp;If Status is Checked then your Appointment is Done with Doctor.</h5>
+<h5>3.&nbsp;If Appointment is not Approved then Again Request for Appointment.</h5>
+        <br />
+<p class="text-center">
+    @* @Html.ActionLink("Create New", "AddAppointment", null, new { @class = "btn btn-primary" }) *@
+            <a asp-action="AddAppointment" asp-controller ="Patient" class="btn btn-success">Create New</a>
+</p>
+        <table class= "table table-bordered table-hover table-striped text-center">
+    <thead>
+        <tr>
+            <th>
+                Doctor Name
+            </th>
+            <th>
+                Date
+            </th>
+            <th>
+                Notes
+            </th>
+            <th>
+                Appointment Id
+            </th>
+            <th>
+                Status
+            </th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.Doctor?.FirstName @item.Doctor?.LastName
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AppointmentDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Notes)
+                </td>
+                @if (item.Status == "Approved")
+                {
+                    <td>
+                        @Html.DisplayFor(m => item.AppointmentID)
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        @(item.Status)
+                    </td>
+                }
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                            <a href="@Url.Action("AppointmentDetails", new {id = item.AppointmentID})" @* class="bi bi-pencil" style="font-size: 19px ;color : black" *@>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
+                                    <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325" />
+                                </svg>
+                            </a> 
+
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+</div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            $("#table_id").dataTable();
+        });
+    </script>
+}
+
+

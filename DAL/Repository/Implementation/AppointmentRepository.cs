@@ -3,6 +3,7 @@ using Hospital.DAL.Entities;
 using Hospital.DAL.Repository.Abstraction;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace Hospital.DAL.Repository.Implementation
 {
@@ -66,6 +67,11 @@ namespace Hospital.DAL.Repository.Implementation
             }
 
             disposed = true;
+        }
+
+        public IEnumerable<Appointment> GetAppointments(Expression<Func<Appointment, bool>> predicate)
+        {
+             return _context.Appointments.Include(a => a.Doctor).Where(predicate);
         }
     }
 }

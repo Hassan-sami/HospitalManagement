@@ -17,10 +17,10 @@ namespace Hospital.BLL.ModelVM
         public DateTime RecordDate { get; set; }
 
         [Display(Name ="Patient")]
-        public int PatientId { get; set; }
+        public string PatientId { get; set; }
 
         [Display(Name = "Doctor")]
-        public int DoctorId {  get; set; }
+        public string DoctorId {  get; set; }
 
         public IEnumerable<Patient>? patients { get; set; }
 

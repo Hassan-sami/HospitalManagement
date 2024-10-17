@@ -15,7 +15,7 @@
 
 <div class="container">
     <div class="form-section">
-        <h2>CreateDoctor</h2>
+        <h2>Create Record</h2>
 
         <form asp-action="AddMedicalRecord" asp-controller="Admin" method="post" enctype="multipart/form-data">
             <div asp-validation-summary="All" class="text-danger"></div>
@@ -47,7 +47,7 @@
             <div class="form-group">
                 <label asp-for="PatientId"></label>
                 <select asp-for="PatientId" class="form-control" asp-items="PatientselectListItems">
-                    <option value= "0">Select Patient</option>
+                    <option value= "">Select Patient</option>
 
                 </select>
                 <span asp-validation-for="PatientId" class="text-danger"></span>
@@ -55,7 +55,7 @@
             <div class="form-group">
                 <label asp-for="DoctorId"></label>
                 <select asp-for="DoctorId" class="form-control" asp-items="DoctorselectListItems">
-                    <option value="0">Select Doctor</option>
+                    <option value="">Select Doctor</option>
 
                 </select>
                 <span asp-validation-for="DoctorId" class="text-danger"></span>
