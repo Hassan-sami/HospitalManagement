@@ -26,7 +26,8 @@ namespace Hospital.BLL.Mappers
             CreateMap<Appointment, AppointmentVm>();
             CreateMap<Shift,CreateShiftVm>();
             CreateMap<CreateShiftVm, Shift>();
-
+            CreateMap<AddMedicalRecordByDoctorVm, MedicalRecord>();
+            CreateMap<MedicalRecord, AddMedicalRecordByDoctorVm> ();
             CreateMap<Doctor, Doctor>();
             
             CreateMap<AddmedicalRecordVM, MedicalRecord>();

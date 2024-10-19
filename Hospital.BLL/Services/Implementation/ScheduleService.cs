@@ -21,5 +21,10 @@ namespace Hospital.BLL.Services.Implementation
         {
             return await scheduleRepo.AddSchedule(schedule);
         }
+
+        public IEnumerable<Schedule> GetDoctorSchedulesById(string docId)
+        {
+            return scheduleRepo.GetDoctorSchedulesById(docId);
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿@using Hospital.DAL.Entities
+@using Hospital.DAL.Entities.OwnedTypes
 @model List<Appointment>
 @{
     ViewData["Title"] = "ListAppointments";
@@ -51,7 +52,7 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Notes)
                 </td>
-                @if (item.Status == "Approved")
+                @if (item.Status == AppointStatus.Approved)
                 {
                     <td>
                         @Html.DisplayFor(m => item.AppointmentID)

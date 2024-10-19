@@ -1,4 +1,5 @@
-﻿@model CreateScheduleVM
+﻿@using Hospital.DAL.Entities.OwnedTypes
+@model CreateScheduleVM
 @{
     ViewData["Title"] = "CreateSchedule";
     Layout = "~/Views/Shared/Admin_Layout.cshtml";
@@ -22,10 +23,20 @@
         <form asp-action="CreateSchedule" asp-controller="Admin" method="post" >
             <div class="text-success" id="Success">@ViewBag.Success</div>
             <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="input-group">
-                <label asp-for="Date"></label>
-                <input class="pass" asp-for="Date" type="date" required value="@DateTime.Now.ToString("MM/dd/yyyy")" />
-                <span asp-validation-for="Date" class="text-danger"></span>
+            <div class="form-group">
+                <label asp-for="Day"></label>
+                <select asp-for="Day" class="form-control">
+                    <option value="">Select Day</option>
+                    <option value="@DayOfWeek.Sunday">@DayOfWeek.Sunday.ToString()</option>
+                    <option value="@DayOfWeek.Monday">@DayOfWeek.Monday.ToString()</option>
+                    <option value="@DayOfWeek.Tuesday">@DayOfWeek.Tuesday.ToString()</option>
+                    <option value="@DayOfWeek.Wednesday">@DayOfWeek.Wednesday.ToString()</option>
+                    <option value="@DayOfWeek.Thursday">@DayOfWeek.Thursday.ToString()</option>
+                    <option value="@DayOfWeek.Friday">@DayOfWeek.Friday.ToString()</option>
+                    <option value="@DayOfWeek.Saturday">@DayOfWeek.Saturday.ToString()</option>
+                    
+                </select>
+                <span asp-validation-for="Status" class="text-danger"></span>
             </div>
 
             <div class="form-group">

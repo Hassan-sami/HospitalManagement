@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,5 +13,7 @@ namespace Hospital.BLL.Services.Abstraction
         public IEnumerable<MedicalRecord> GetMedicalRecordsWithPatientAndDoctor();
 
         public Task<bool> AddMedicalRecord(MedicalRecord record);
+
+        IEnumerable<MedicalRecord> GetDoctorMedicalRecords(Expression<Func<MedicalRecord, bool>> predicate);
     }
 }

@@ -55,24 +55,28 @@
                 <img alt="Hospital Logo" src="https://storage.googleapis.com/a1aa/image/beUHTKyel6ldm0IQFFLkCM5iatfvY6SFFiLeKNTvYzGVcIXOB.jpg" />
             </a>
             <nav>
+                <a asp-action="AboutUs" asp-controller="Home">About Us </a>
 
-                <a asp-action="AboutUs" asp-controller="Home">About Us </a> <!-- Link to Statistics Section -->
                 @if (!User.Identity.IsAuthenticated)
                 {
                     <a href="#services">Services</a>
                     <a href="#doctors">Our Doctors</a> <!-- New link for Our Doctors -->
                 }
+                <a href="#Contact">Contact</a>
                 @if (User.Identity.IsAuthenticated && User.IsInRole(Role.Patient.ToString()))
                 {
                     <a asp-action="GetMedicalRecords" asp-controller="Patient">My Medical Records</a>
                     <a asp-action="ListAppointments" asp-controller="Patient">My Appointments</a>
+                    <a asp-action="AddAppointment" asp-controller="Patient">request Appointment</a>
                 }
 
-                <a href="#Contact">Contact</a>
-                @if (User.IsInRole(Role.Patient.ToString()))
+
+                @if (User.IsInRole(Role.Doctor.ToString()))
                 {
 
-                    <a asp-action="AddAppointment" asp-controller="Patient">request Appointment</a>
+                    <a asp-action="GetAppointments" asp-controller="Doctor">Booked Appointments</a>
+                    <a asp-action="AddMedicalRecord" asp-controller="Doctor">Add Record</a>
+                    <a asp-action="GetMedicalRecords" asp-controller="Doctor">Records</a>
                 }
 
             </nav>

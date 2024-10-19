@@ -19,8 +19,8 @@ namespace Hospital.BLL.ModelVM
         public int ShiftId { get; set; }
 
         [Required]
-        [DataType(DataType.Date)]
-        public DateTime Date { get; set; }
+        
+        public DayOfWeek Day { get; set; }
 
         [Required]
         public Status Status { get; set; }

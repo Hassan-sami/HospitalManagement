@@ -10,5 +10,6 @@ namespace Hospital.DAL.Repository.Abstraction
     public interface IScheduleRepo
     {
         Task<bool> AddSchedule(Schedule schedule);
+        IEnumerable<Schedule> GetDoctorSchedulesById(string docId);
     }
 }

@@ -1,0 +1,58 @@
+﻿@using Hospital.DAL.Entities.OwnedTypes
+@model DoctorAppointmentApprovalVm
+@{
+    ViewData["Title"] = "EditAppointment";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+@section Style {
+    <link rel="stylesheet" href="/css/newregister.css">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    
+}
+
+
+
+<div class="container">
+    <div class="form-section">
+        <h2>Appointment</h2>
+
+        <form asp-action="EditAppointment" asp-controller="Doctor"  method="post" enctype="multipart/form-data">
+            
+            <div asp-validation-summary="All" class="text-danger"></div>
+            
+            <input type="hidden" asp-for="Id" />
+            
+            <div class="form-group">
+                <label asp-for="Status"></label>
+                <select asp-for="Status" class="form-control">
+                    <option value="">Select Status</option>
+                    <option value="@AppointStatus.Approved">@AppointStatus.Approved.ToString()</option>
+                    <option value="@AppointStatus.NotApproved">@AppointStatus.NotApproved.ToString()</option>
+                    <option value="@AppointStatus.Pending">@AppointStatus.Pending.ToString()</option>
+
+                </select>
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+
+
+            <br />
+            <input class="sub" type="submit" value="Submit">
+
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+
+    }
+    @*  <script>
+
+        setTimeout(function () {
+            document.getElementById("Success").innerHTML = "";
+        }, 5000);
+
+    </script> *@
+}

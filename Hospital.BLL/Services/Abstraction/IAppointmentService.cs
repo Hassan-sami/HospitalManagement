@@ -1,4 +1,5 @@
 ﻿using Hospital.DAL.Entities;
+using Hospital.DAL.Entities.OwnedTypes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,5 +19,8 @@ namespace Hospital.BLL.Services.Abstraction
         Task<bool> DeleteAppointment(int id);
         Task<bool> UpdateAppointment(Appointment appointment);
 
+        void UpdateAppointmentStatus(AppointStatus Status);
+
+        
     }
 }

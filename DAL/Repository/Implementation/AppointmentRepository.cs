@@ -1,5 +1,6 @@
 ﻿using Hospital.DAL.DataBase;
 using Hospital.DAL.Entities;
+using Hospital.DAL.Entities.OwnedTypes;
 using Hospital.DAL.Repository.Abstraction;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -24,7 +25,7 @@ namespace Hospital.DAL.Repository.Implementation
 
         public async Task<Appointment> GetAppointmentById(int id)
         {
-            return await _context.Appointments.Include(a => a.Patient).Include(a => a.Doctor).SingleOrDefaultAsync(ap => ap.AppointmentID == id);
+            return await _context.Appointments.Include(a => a.Patient).Include(a => a.Doctor).Include(a => a.Schedule).SingleOrDefaultAsync(ap => ap.AppointmentID == id);
         }
 
         public async Task AddAppointment(Appointment appointment)
@@ -71,7 +72,16 @@ namespace Hospital.DAL.Repository.Implementation
 
         public IEnumerable<Appointment> GetAppointments(Expression<Func<Appointment, bool>> predicate)
         {
-             return _context.Appointments.Include(a => a.Doctor).Where(predicate);
+             return _context.Appointments.Include(a => a.Doctor).Include(ap => ap.Patient).Include(app => app.Schedule)?.
+                ThenInclude(sch => sch.Shift).Where(predicate);
+        }
+
+        public void UpdateAppointmentStatus(Expression<Func<Appointment, bool>> predicate, AppointStatus Status)
+        {
+            
+                 _context.Appointments.Where(predicate).ExecuteUpdate(c => c.SetProperty(a => a.Status, app => Status));
+                
+            
         }
     }
 }

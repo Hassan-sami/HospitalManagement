@@ -9,11 +9,47 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
     
-    
-    <link rel="stylesheet" href="/css/main.css" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    @await RenderSectionAsync("Style", required: false)
+    <link rel="stylesheet" href="/css/main.css" />
     
+    
+    @await RenderSectionAsync("Style", required: false)
+    <style>
+        #preview {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+        }
+
+        /* Top-left image placement */
+        .top-left {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+        }
+
+        body {
+            background-color: #fff;
+        }
+
+        /* Container styling to handle positioning */
+        .profile-container {
+            position: relative;
+            padding-top: 200px; /* Leave space for the top-left image */
+        }
+
+        /* Ensure form responsiveness */
+        @@media (max-width: 768px) {
+            .profile-container {
+                padding-top: 100px;
+            }
+
+            #preview {
+                width: 120px;
+                height: 120px;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -30,17 +66,22 @@
                 {
                     <a href="#services">Services</a>
                     <a href="#doctors">Our Doctors</a> <!-- New link for Our Doctors -->
+
                 }
+                <a href="#Contact">Contact</a>
                 @if(User.Identity.IsAuthenticated && User.IsInRole(Role.Patient.ToString()))
                 {
                     <a asp-action="GetMedicalRecords" asp-controller="Patient">My Medical Records</a>
                     <a asp-action="ListAppointments" asp-controller="Patient">My Appointments</a>
+                    <a asp-action="AddAppointment" asp-controller="Patient">request Appointment</a>
                 }
 
-                <a href="#Contact">Contact</a>
-                @if(User.IsInRole(Role.Patient.ToString())){
+                
+                @if(User.IsInRole(Role.Doctor.ToString())){
 
-                    <a asp-action="AddAppointment" asp-controller="Patient">request Appointment</a>
+                    <a asp-action="GetAppointments" asp-controller="Doctor">Booked Appointments</a>
+                    <a asp-action="AddMedicalRecord"  asp-controller="Doctor" >Add Record</a>
+                    <a asp-action="GetMedicalRecords" asp-controller="Doctor">Records</a>
                 }
                 
             </nav>

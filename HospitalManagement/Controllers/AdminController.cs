@@ -307,6 +307,7 @@ namespace HospitalManagement.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateSchedule(CreateScheduleVM createScheduleVM)
         {
+            createScheduleVM.Doctors = doctorService.GetAllDoctors();
             if (ModelState.IsValid)
             {
                 var docSchedules = await doctorService.GetDoctorAndSchedulesById(createScheduleVM.DoctorId);
@@ -314,7 +315,7 @@ namespace HospitalManagement.Controllers
                 {
                     if (docSchedules.Schedules != null && docSchedules.Schedules.Any(sec =>
                     sec.DoctorId == createScheduleVM.DoctorId
-                    && sec.Date == sec.Date
+                    && sec.Day == sec.Day
                     && sec.ShiftId == createScheduleVM.ShiftId
                     && sec.Status == createScheduleVM.Status))
                     {

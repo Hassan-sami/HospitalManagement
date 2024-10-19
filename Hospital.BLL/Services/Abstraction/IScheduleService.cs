@@ -11,5 +11,6 @@ namespace Hospital.BLL.Services.Abstraction
     public interface IScheduleService
     {
         Task<bool> AddSchedule(Schedule schedule);
+        IEnumerable<Schedule> GetDoctorSchedulesById(string docId);
     }
 }

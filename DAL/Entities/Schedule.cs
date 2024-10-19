@@ -22,7 +22,7 @@ namespace Hospital.DAL.Entities
 
         public Shift Shift { get; set; }
 
-        public DateTime Date { get; set; }
+        public DayOfWeek Day { get; set; }
 
         public Status Status { get; set; }
     }

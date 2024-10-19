@@ -1,3 +1,4 @@
+using Hangfire;
 using Hospital.BLL.Helpers;
 using Hospital.BLL.Mappers;
 using Hospital.BLL.Services.Abstraction;
@@ -9,6 +10,7 @@ using Hospital.DAL.Repository.Implementation;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using System.Configuration;
 
 namespace HospitalManagement
 {
@@ -17,10 +19,15 @@ namespace HospitalManagement
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
+            builder.Services.AddHangfire(config =>
+            {
+                config.UseSqlServerStorage(builder.Configuration.GetConnectionString("defaultConnection"));
+            });
+            builder.Services.AddHangfireServer();
+            
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-
+            
             builder.Services.Configure<EmailOptions>(builder.Configuration.GetSection("EmailOptions"));
 
             builder.Services.AddScoped<IEmailSender, EmailSender>();
@@ -70,19 +77,20 @@ namespace HospitalManagement
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
+            app.UseHangfireDashboard("/mydashboard");
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            
             app.UseRouting();
             app.UseAuthentication();
             
             app.UseAuthorization();
-
+            
+            
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
-
+            
             app.Run();
         }
     }

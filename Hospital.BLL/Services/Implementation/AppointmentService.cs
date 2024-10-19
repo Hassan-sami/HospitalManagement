@@ -1,5 +1,6 @@
 ﻿using Hospital.BLL.Services.Abstraction;
 using Hospital.DAL.Entities;
+using Hospital.DAL.Entities.OwnedTypes;
 using Hospital.DAL.Repository.Abstraction;
 using System;
 using System.Collections.Generic;
@@ -67,6 +68,11 @@ namespace Hospital.BLL.Services.Implementation
             {
                 return false;
             }
+        }
+
+        public void UpdateAppointmentStatus(AppointStatus Status)
+        {
+             appointmentRepository.UpdateAppointmentStatus(p => p.AppointmentDate < DateTime.Now, Status);
         }
     }
 }
