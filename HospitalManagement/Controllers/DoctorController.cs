@@ -57,7 +57,7 @@ namespace HospitalManagement.Controllers
             var appointment = await appointmentService.GetAppointmentById(id);
             DoctorAppointmentApprovalVm doctorAppointmentApprovalVm = new DoctorAppointmentApprovalVm()
             {
-                Status = appointment.Status,
+                Status = (int)appointment.Status,
                 Id = appointment.AppointmentID
 
             };
@@ -66,14 +66,14 @@ namespace HospitalManagement.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditAppointment(int Id ,DoctorAppointmentApprovalVm status)
+        public async Task<IActionResult> EditAppointment(DoctorAppointmentApprovalVm status)
         {
             if (ModelState.IsValid)
             {
-                var appointment = await appointmentService.GetAppointmentById(Id);
+                var appointment = await appointmentService.GetAppointmentById(status.Id);
 
                 var docId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                if (status.Status.ToString() == "Approved")
+                if (((AppointStatus)status.Status).ToString() == "Approved")
                 {
                     var schedules =  scheduleService.GetDoctorSchedulesById(docId);
                     if (schedules != null)
@@ -85,7 +85,7 @@ namespace HospitalManagement.Controllers
                             {
                                 appointment.Schedule = sch;
                                 appointment.ScheduleId = sch.Id;
-                                appointment.Status = status.Status;
+                                appointment.Status = (AppointStatus)status.Status;
                                 await appointmentService.UpdateAppointment(appointment);
                                 await sender.send(appointment.Patient.Email, "Your appointment Approval",
                                     $"your appointment is accepted Date {appointment.AppointmentDate}  " +
@@ -95,20 +95,20 @@ namespace HospitalManagement.Controllers
                             }
                         }
                         
-                        ModelState.AddModelError(string.Empty,"can't added this appointment");
+                        ModelState.AddModelError(string.Empty,"can't add this appointment");
                     }
                     else
                         ModelState.AddModelError(string.Empty, "there no shift in this date");
                 }
                 else
                 {
-                    appointment.Status = status.Status;
+                    appointment.Status = (AppointStatus)status.Status;
                     await appointmentService.UpdateAppointment(appointment);
                     return RedirectToAction("GetAppointments");
                 }
                 
             }
-            status.Id = Id;
+            status.Id = status.Id;
             return View(status);
 
         }

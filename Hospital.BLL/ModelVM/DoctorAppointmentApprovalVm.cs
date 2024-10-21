@@ -9,7 +9,7 @@ namespace Hospital.BLL.ModelVM
 {
     public class DoctorAppointmentApprovalVm
     {
-        public int? Id { get; set; }
-        public AppointStatus Status { get; set; }
+        public int Id { get; set; }
+        public int Status { get; set; }
     }
 }
