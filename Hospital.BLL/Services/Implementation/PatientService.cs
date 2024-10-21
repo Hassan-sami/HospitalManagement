@@ -68,6 +68,11 @@ namespace Hospital.BLL.Services.Implementation
         {
             return await _patientRepository.GetPatient(expression);
         }
+
+        public IEnumerable<Patient> GetPatients(Func<Patient, bool> predicate)
+        {
+            return GetAllPatients().Where(predicate);
+        }
     }
 }
 

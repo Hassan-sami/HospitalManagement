@@ -19,7 +19,7 @@ namespace Hospital.DAL.Repository.Implementation
 
         public IEnumerable<MedicalRecord> GetAllMedicalRecords()
         {
-            return _context.MedicalRecords.Include(m => m.Patient).Include(m => m.Doctor);
+            return _context.MedicalRecords.Include(m => m.Patient).Include(m => m.Doctor)?.ThenInclude(d => d.Specialization);
         }
 
         public MedicalRecord GetMedicalRecordById(int id)

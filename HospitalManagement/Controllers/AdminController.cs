@@ -27,6 +27,7 @@ namespace HospitalManagement.Controllers
         private readonly ImedicalRecordService medicalRecordService;
         private readonly IShiftService shiftService;
         private readonly IScheduleService scheduleService;
+        private readonly IAppointmentService appointmentService;
 
         public AdminController(IMapper mapper, IEmailSender sender,
             UserManager<ApplicationUser> userManager, 
@@ -34,7 +35,7 @@ namespace HospitalManagement.Controllers
             ILogger<AccountController> logger, ISepcializationService sepcializationService,
             IDoctorService doctorService,IPatientService patientService,
             ImedicalRecordService medicalRecordService, IShiftService shiftService
-            ,IScheduleService scheduleService)
+            ,IScheduleService scheduleService,IAppointmentService appointmentService)
         {
             this.mapper = mapper;
             this.sender = sender;
@@ -47,10 +48,20 @@ namespace HospitalManagement.Controllers
             this.medicalRecordService = medicalRecordService;
             this.shiftService = shiftService;
             this.scheduleService = scheduleService;
+            this.appointmentService = appointmentService;
         }
         public IActionResult Index()
         {
-            return View();
+            var model = new AdminIndexVm()
+            {
+                NoOfPatients = patientService.GetAllPatients().Count(),
+                NoOfAppoint = appointmentService.GetAppointments(ap => ap.AppointmentID > -1).Count(),
+                NoOfNewAppoint = appointmentService.GetAppointments(ap => ap.AppointmentDate.Date > DateTime.Now.Date).Count(),
+                NoOfTodayPatient = appointmentService.GetAppointments(ap => ap.AppointmentDate == DateTime.Now.Date && ap.Status == Hospital.DAL.Entities.OwnedTypes.AppointStatus.Approved).Count(),
+                NoOfDoctors = doctorService.GetAllDoctors().Count(),
+                NoOfMedical = medicalRecordService.GetMedicalRecordsWithPatientAndDoctor().Count()
+            };
+            return View(model);
         }
 
         public IActionResult CreateDoctor()

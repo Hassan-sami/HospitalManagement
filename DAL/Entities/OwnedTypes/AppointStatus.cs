@@ -8,8 +8,8 @@ namespace Hospital.DAL.Entities.OwnedTypes
 {
      public enum AppointStatus
     {
-        Approved,
-        NotApproved,
-        Pending
+        Approved = 1,
+        NotApproved = 2,
+        Pending = 3
     }
 }

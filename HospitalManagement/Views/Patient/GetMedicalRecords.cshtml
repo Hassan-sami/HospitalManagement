@@ -3,7 +3,7 @@
 
 @{
     ViewData["Title"] = "Medical Records List";
-    Layout = "~/Views/Shared/_MedicalRecordLayout.cshtml";
+    
 }
 @section Style {
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
@@ -15,6 +15,38 @@
     <link href="~/css/site.css" rel="stylesheet" />
     <link href="~/css/listappointment.css" rel="stylesheet" />
 }
+@section Header {
+    <!-- Navbar Start -->
+    <div class="container-fluid position-relative p-0">
+        <nav class="navbar navbar-expand-lg navbar-light bg-white px-4 px-lg-5 py-3 py-lg-0">
+            <a asp-action="Index" asp-controller="Home" class="navbar-brand p-0">
+                <h1 class="text-primary m-0"><i class="fas fa-star-of-life me-3"></i>Hospital</h1>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                <span class="fa fa-bars"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <div class="navbar-nav ms-auto py-0">
+                    <a asp-action="Index" asp-controller="Home" class="nav-item nav-link">Home</a> <!-- Only Home link -->
+                </div>
+
+                <div class="auth-buttons">
+                    @if (User?.Identity?.IsAuthenticated ?? false)
+                    {
+                        <a asp-action="LogOut" asp-controller="Account" class="btn btn-primary rounded-pill text-white py-2 px-4">Log out</a>
+                    }
+                    else
+                    {
+                        <a asp-action="LogIn" asp-controller="Account" class="btn btn-primary rounded-pill text-white py-2 px-4">Login</a>
+                        <a asp-action="Register" asp-controller="Account" class="btn btn-primary rounded-pill text-white py-2 px-4">Create Account</a>
+                    }
+                </div>
+            </div>
+        </nav>
+    </div>
+    <!-- Navbar End -->
+}
+<div class="container mt-4">
 <div class="text-center">
     <h2 class="mb-4">List of Medical Records</h2>
 </div>
@@ -44,4 +76,5 @@
         </tbody>
     </table>
 
+</div>
 </div>
