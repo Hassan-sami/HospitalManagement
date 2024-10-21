@@ -1,13 +1,18 @@
 ﻿@model AppointmentVm
 @{
     ViewData["Title"] = "AddAppointment";
-    Layout = "~/Views/Shared/_MainLayout.cshtml";
+
+    Layout = "~/Views/Shared/AddAppointment.cshtml";
 }
 
-@section Style {
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="/css/newregister.css">
-}
+    @section Style {
+     @*    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" /> *@
+         <link rel="stylesheet" href="/css/newregister.css"> 
+        <link rel="stylesheet" href="/css/style.css">
+        <link rel="stylesheet" href="/css/AddAppointment.css">
+        <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    }
 
 
 
@@ -18,18 +23,12 @@
         <form asp-action="AddAppointment" asp-controller="Patient" method="post" enctype="multipart/form-data">
             <div class="text-success" id="Success">@ViewBag.Success</div>
             <div asp-validation-summary="All" class="text-danger"></div>
-            @* <div class="input-group">
-                <label asp-for="Status"></label>
-                <input class="text" asp-for="Status" placeholder="Status" required />
-                <span asp-validation-for="Status" class="text-danger"></span>
-            </div> *@
 
             <div class="input-group">
                 <label asp-for="Notes"></label>
                 <input class="text" asp-for="Notes" placeholder="Notes" required />
                 <span asp-validation-for="Notes" class="text-danger"></span>
             </div>
-            
 
             <div class="input-group">
                 <label asp-for="AppointmentDate"></label>
@@ -41,39 +40,27 @@
                 <label asp-for="DoctorId"></label>
                 <select asp-for="DoctorId" class="form-control">
                     <option value="">Select Doctor</option>
-                    @if(Model.Doctors != null)
+                    @if (Model.Doctors != null)
+
                     {
                         @foreach (var doc in Model.Doctors)
+
                         {
                             <option value="@doc.Id">@doc.FirstName @doc.LastName @doc.Specialization?.Name</option>
                         }
                     }
-                    
                 </select>
                 <span asp-validation-for="DoctorId" class="text-danger"></span>
             </div>
-            
 
             <br />
-            <input class="sub" type="submit" value="Request">
+            <!-- Buttons with spacing -->
+            <input class="btn btn-primary" type="submit" value="Request" style="margin-right: 10px;" />
+
+            <!-- Go to Home button -->
+            <a asp-action="Index" asp-controller="Home" class="btn btn-primary" style="margin-right: 10px;transform:translateY(10px)  ; width: 480px; height: 44px;">Go to Home</a>
 
         </form>
     </div>
 </div>
-
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-
-    }
-   @*  <script>
-
-        setTimeout(function () {
-            document.getElementById("Success").innerHTML = "";
-        }, 5000);
-
-    </script> *@
-}
-
-
 

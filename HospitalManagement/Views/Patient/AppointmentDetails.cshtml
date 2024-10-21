@@ -1,5 +1,4 @@
-﻿
-@model AppointmentVm
+﻿@model AppointmentVm
 @{
     ViewData["Title"] = "AppointmentDetails";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
@@ -8,82 +7,78 @@
 @section Style {
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="/css/newregister.css">
+    <link href="~/css/appointment.css" rel="stylesheet" />
+    <link href="~/css/cardstyle.css" rel="stylesheet" />
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/css/style.css" rel="stylesheet" />
+    <link href="~/css/site.css" rel="stylesheet" />
 }
-
-
 
 <div class="container">
     <div class="form-section">
-        <h2>Appontment details</h2>
+        <h2>Appointment Details</h2>
         <input type="hidden" id="IdValue" value="@Model.Id" />
+
         <form asp-action="EditAppointment" asp-controller="Patient" asp-route-id="@Model.Id" method="post" enctype="multipart/form-data">
             <div asp-validation-summary="All" class="text-danger"></div>
-            <<input type="hidden"  asp-for="Id" />
-            <div class="input-group">
-                <label asp-for="Notes"></label>
-                <input class="text" asp-for="Notes" placeholder="Notes" required />
-                <span asp-validation-for="Notes" class="text-danger"></span>
-            </div>
-            <div class="input-group">
-                <label asp-for="AppointmentDate"></label>
-                <input class="pass" type ="date" asp-for="AppointmentDate"  required />
-                <span asp-validation-for="AppointmentDate" class="text-danger"></span>
-            </div>
-            
+            <input type="hidden" asp-for="Id" />
 
-            <div class="input-group">
-                <label asp-for="DoctorId"></label>
-                <select asp-for="DoctorId" class="text" required >
-
-                    <option value="">Select Doctor</option>
-                    @if(Model.Doctors != null)
-                    {
-                        @foreach(var doc in Model.Doctors)
-                        {
-                            @if(doc.Id == Model.DoctorId)
+            <table class="table">
+                <tr>
+                    <th>Notes</th>
+                    <td><input class="text" asp-for="Notes" placeholder="Notes" required /></td>
+                </tr>
+                <tr>
+                    <th>Appointment Date</th>
+                    <td><input class="pass" type="date" asp-for="AppointmentDate" required /></td>
+                </tr>
+                <tr>
+                    <th>Select Doctor</th>
+                    <td>
+                        <select asp-for="DoctorId" class="text" required>
+                            <option value="">Select Doctor</option>
+                            @if (Model.Doctors != null)
                             {
-                                <option value="@doc.Id" selected>@doc.FirstName @doc.LastName|@doc.Specialization.Name</option>
+                                @foreach (var doc in Model.Doctors)
+                                {
+                                    if (doc.Id == Model.DoctorId)
+                                    {
+                                        <option value="@doc.Id" selected>@doc.FirstName @doc.LastName | @doc.Specialization.Name</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@doc.Id">@doc.FirstName @doc.LastName | @doc.Specialization.Name</option>
+                                    }
+                                }
                             }
-                            else
-                            {
-                                <option value="@doc.Id">@doc.FirstName @doc.LastName|@doc.Specialization.Name</option>
-                            }
-                            
-                        }
-                    }
+                        </select>
+                    </td>
+                </tr>
+            </table>
 
-                </select>
-                <span asp-validation-for="DoctorId" class="text-danger"></span>
-            </div>
-
-
-
-            <input class="btn btn-success" type="submit" value="submit edit">
-            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                Delete
-            </button>
+            <input class="btn btn-success" type="submit" value="Submit Edit">
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">Delete</button>
 
             <!-- Modal -->
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Delete appointment</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">Delete Appointment</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <p>Are you sure ?</p>
+                            <p>Are you sure?</p>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" id="delete" class="btn btn-primary">submit</button>
+                            <button type="button" id="delete" class="btn btn-primary">Submit</button>
                         </div>
                     </div>
                 </div>
-            </div><br />
+            </div>
+            <br />
             <p><a asp-action="ListAppointments" asp-controller="Patient">Go back</a></p>
-
-
         </form>
     </div>
 </div>
@@ -93,43 +88,24 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
     <script>
-        //     function confirmDelete() {
-        //         var myModal = document.getElementById('myModal')
-        //         var myInput = document.getElementById('myInput')
+        $("#delete").click(function (e) {
+            e.preventDefault(); // Prevent default form submission
+            const id = $("#IdValue").val();
 
-        //         myModal.addEventListener('shown.bs.modal', function () {
-        //             myInput.focus()
-        //         })
-        //     }
-
-            $("#delete").click(function (e) {
-                e.preventDefault(); // Prevent default form submission
-                const id = $("#IdValue").val();
-
-
-                // Make an AJAX request to the controller
-                $.ajax({
-                    type: "DELETE",
-                    url: "/Patient/DeleteAppointment",
-                    data: { id: id  },
-                    success: function (response) {
-                        /* $("#ContentID").; */ // Display the result
-
-                        // document.documentElement.innerHTML = response;
-                        setTimeout(() => {
-                            // Use a publicly accessible URL for testing
-
-                            window.location.href = response.redirect;
-                            // redirect after 1 seconds
-                        }, 1000)
-
-                    },
-                    error: function () {
-                        alert("An error occurred. Please try again.");
-                    }
-                });
+            // Make an AJAX request to the controller
+            $.ajax({
+                type: "DELETE",
+                url: "/Patient/DeleteAppointment",
+                data: { id: id },
+                success: function (response) {
+                    setTimeout(() => {
+                        window.location.href = response.redirect; // Redirect after 1 second
+                    }, 1000);
+                },
+                error: function () {
+                    alert("An error occurred. Please try again.");
+                }
             });
-
-        // </script>
+        });
+    </script>
 }
-
