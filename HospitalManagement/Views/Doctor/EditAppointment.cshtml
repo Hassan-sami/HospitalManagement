@@ -80,9 +80,9 @@
                 <label asp-for="Status"></label>
                 <select asp-for="Status" class="form-control" required>
                     <option value="">Select Status</option>
-                    <option value="@AppointStatus.Approved">@AppointStatus.Approved.ToString()</option>
-                    <option value="@AppointStatus.NotApproved">@AppointStatus.NotApproved.ToString()</option>
-                    <option value="@AppointStatus.Pending">@AppointStatus.Pending.ToString()</option>
+                    <option value="1">@AppointStatus.Approved.ToString()</option>
+                    <option value="2">@AppointStatus.NotApproved.ToString()</option>
+                    <option value="3">@AppointStatus.Pending.ToString()</option>
 
                 </select>
                 <span asp-validation-for="Status" class="text-danger"></span>
