@@ -1,70 +1,47 @@
 ﻿@using Hospital.DAL.Entities
 @model IEnumerable<MedicalRecord>
+
 @{
-    ViewData["Title"] = "GetMedicalRecords";
-    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    ViewData["Title"] = "Medical Records List";
+    Layout = "~/Views/Shared/_MedicalRecordLayout.cshtml";
 }
-
-<div class="container d-flex justify-content-center">
-    <div class="table-responsive" style="max-width: 1000px; margin: 0 auto;">
-        <h2 class="text-center">List Of medicalRecords</h2>
-
-@*         <h4>Description:</h4>
-        <h5>1. &nbsp; You Have to wait until your Appointment is Approved.</h5>
-        <h5>2. &nbsp;If Status is Checked then your Appointment is Done with Doctor.</h5>
-        <h5>3.&nbsp;If Appointment is not Approved then Again Request for Appointment.</h5>
-        <br />
-        <p class="text-center"> *@
-            @* @Html.ActionLink("Create New", "AddAppointment", null, new { @class = "btn btn-primary" }) *@
-           @*  <a asp-action="AddAppointment" asp-controller="Patient" class="btn btn-success">Create New</a>
-        </p> *@
-        <table class="table table-bordered table-hover table-striped text-center">
-            <thead>
-                <tr>
-                    <th>
-                        Diagnosis
-                    </th>
-                    <th>
-                        Treatment
-                    </th>
-                    <th>
-                        RecordDate
-                    </th>
-                    <th>
-                        Doctor name
-                    </th>
-                    <th>
-                        Doctor Specialization
-                    </th>
-                    @* <th>Action</th> *@
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>
-                            @item.Diagnosis
-                        </td>
-                        <td>
-                            @item.Treatment
-                        </td>
-                        <td>
-                            @item.RecordDate
-                        </td>
-                        <td>
-                            DR. @item.Doctor?.FirstName @item.Doctor?.LastName
-                        </td>
-                        <td>
-                            @item.Doctor?.Specialization?.Name
-                        </td>
-                        
-                    </tr>
-                }
-            </tbody>
-
-        </table>
-
-    </div>
+@section Style {
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/newregister.css">
+    <link href="~/css/appointment.css" rel="stylesheet" />
+    <link href="~/css/cardstyle.css" rel="stylesheet" />
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/css/style.css" rel="stylesheet" />
+    <link href="~/css/site.css" rel="stylesheet" />
+    <link href="~/css/listappointment.css" rel="stylesheet" />
+}
+<div class="text-center">
+    <h2 class="mb-4">List of Medical Records</h2>
 </div>
 
+<div class="table-responsive">
+    <table class="table table-bordered table-hover text-center">
+        <thead>
+            <tr>
+                <th>Diagnosis</th>
+                <th>Treatment</th>
+                <th>Record Date</th>
+                <th>Doctor Name</th>
+                <th>Doctor Specialization</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Diagnosis</td>
+                    <td>@item.Treatment</td>
+                    <td>@item.RecordDate.ToShortDateString()</td>
+                    <td>Dr. @item.Doctor?.FirstName @item.Doctor?.LastName</td>
+                    <td>@item.Doctor?.Specialization?.Name</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>

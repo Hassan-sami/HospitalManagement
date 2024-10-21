@@ -1,66 +1,81 @@
 ﻿@using Hospital.DAL.Entities
 @model Doctor
 @{
-    ViewData["Title"] = "GetDoctorDetails";
-    Layout = "~/Views/Shared/_DoctorDetailsLayout.cshtml";
+     ViewData["Title"] = "Doctors";
+    Layout = "~/Views/Shared/GetMedicalRecord.cshtml";
 }
 
+@section Style {
+    @*    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" /> *@
+    <link rel="stylesheet" href="/css/style.css">
+    @*  <link rel="stylesheet" href="/css/AddAppointment.css"> *@
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/AddMed.css">
+
+
+}
 <div class="container mt-5">
     <div class="card">
         <div class="card-header">
-            <h3>Person Information</h3>
+            <h3>Doctor Information</h3>
         </div>
         <div class="card-body">
-            <div class="row">
-                <!-- Personal Info -->
-                <div class="col-md-6 col-sm-12">
-                    <h5>Basic Information</h5>
-                    <p><strong>Name:</strong>@Model.FirstName @Model.LastName</p>
-                    <p><strong>Gender:</strong> @Model.Gender</p>
-                    <p><strong>Email:</strong> @Model.Email</p>
-                </div>
+            <h5>Basic Information</h5>
+            <table class="table table-bordered">
+                <tbody>
+                    <tr>
+                        <th>Name</th>
+                        <td>@Model.FirstName @Model.LastName</td>
+                    </tr>
+                    <tr>
+                        <th>Gender</th>
+                        <td>@Model.Gender</td>
+                    </tr>
+                    <tr>
+                        <th>Email</th>
+                        <td>@Model.Email</td>
+                    </tr>
+                    <tr>
+                        <th>Phone</th>
+                        <td>@Model.PhoneNumber</td>
+                    </tr>
+                </tbody>
+            </table>
 
-                <!-- Additional Info -->
-                <div class="col-md-6 col-sm-12">
-                    <h5>Schedule</h5>
-                    @if (Model.Schedules != null)
-                    {
-
-
+            <h5 class="mt-4">Schedule</h5>
+            @if (Model.Schedules != null && Model.Schedules.Any())
+            {
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Day</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
                         @foreach (var sec in Model.Schedules)
                         {
-                            <p><strong>available:</strong>@sec.Day |@sec.Status</p>
-
+                            <tr>
+                                <td>@sec.Day</td>
+                                <td>@sec.Status</td>
+                            </tr>
                         }
-                    }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <p>No schedule available.</p>
+            }
 
-                </div>
-            </div>
-
-            <div class="row mt-4">
-                <!-- Job Info -->
-                @* <div class="col-md-6 col-sm-12">
-                    <h5>Job Information</h5>
-                    <p><strong></strong> Software Engineer</p>
-                    <p><strong>Company:</strong> ABC Corp</p>
-                </div> *@
-
-                <!-- Contact Info -->
-                <div class="col-md-6 col-sm-12">
-                    <h5>Contact Details</h5>
-                    <p><strong>Phone:</strong> @Model.PhoneNumber</p>
-                    
-                </div>
-            </div>
+            <!-- Go Back Button -->
+            <a href="/" class="btn btn-go-back">Go Back to Home</a>
         </div>
     </div>
 </div>
 
-<!-- Bootstrap JS and dependencies -->
-@section Scripts{
+@section Scripts {
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 }
-
-
