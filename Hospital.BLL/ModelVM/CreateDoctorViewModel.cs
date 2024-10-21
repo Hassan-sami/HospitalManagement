@@ -35,6 +35,9 @@ namespace Hospital.BLL.ModelVM
         [Required]
         [Range(10000,25000)]
         public decimal Salary { get; set; }
+        [Required]
+        [Range(300, 500)]
+        public decimal SessionPrice { get; set; }
 
 
         [Required]

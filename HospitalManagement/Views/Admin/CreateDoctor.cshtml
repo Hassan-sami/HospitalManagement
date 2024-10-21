@@ -51,6 +51,11 @@
                 <span asp-validation-for="Salary" class="text-danger"></span>
             </div>
             <div class="input-group">
+                <label asp-for="SessionPrice"></label>
+                <input class="em" asp-for="SessionPrice" placeholder="price" required />
+                <span asp-validation-for="SessionPrice" class="text-danger"></span>
+            </div>
+            <div class="input-group">
                 <label asp-for="Password"></label>
                 <input class="pass" asp-for="Password" placeholder="Password" required />
                 <span asp-validation-for="Password" class="text-danger"></span>

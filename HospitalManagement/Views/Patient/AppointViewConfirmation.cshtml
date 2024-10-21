@@ -1,9 +1,8 @@
 ﻿@using Hospital.BLL.Helpers
-@using Hospital.DAL.Entities
-@model Doctor
+
 @{
-     ViewData["Title"] = "Doctors";
-    
+    ViewData["Title"] = "View";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 
 @section Style {
@@ -59,65 +58,27 @@
     <!-- Navbar End -->
 }
 <div class="container mt-4">
-<div class="container mt-5">
-    <div class="card">
-        <div class="card-header">
-            <h3>Doctor Information</h3>
-        </div>
-        <div class="card-body">
-            <h5>Basic Information</h5>
-            <table class="table table-bordered">
-                <tbody>
-                    <tr>
-                        <th>Name</th>
-                        <td>@Model.FirstName @Model.LastName</td>
-                    </tr>
-                    <tr>
-                        <th>Gender</th>
-                        <td>@Model.Gender</td>
-                    </tr>
-                    <tr>
-                        <th>Email</th>
-                        <td>@Model.Email</td>
-                    </tr>
-                    <tr>
-                        <th>Phone</th>
-                        <td>@Model.PhoneNumber</td>
-                    </tr>
-                </tbody>
-            </table>
+    <div class="container">
+        <div class="form-section">
+            <h2>Appointment</h2>
 
-            <h5 class="mt-4">Schedule</h5>
-            @if (Model.Schedules != null && Model.Schedules.Any())
-            {
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Day</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var sec in Model.Schedules)
-                        {
-                            <tr>
-                                <td>@sec.Day</td>
-                                <td>@sec.Status</td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            }
-            else
-            {
-                <p>No schedule available.</p>
-            }
+            <form asp-action="EditAppointment" asp-controller="Doctor" method="post" enctype="multipart/form-data">
 
-            <!-- Go Back Button -->
-            <a href="/" class="btn btn-go-back">Go Back to Home</a>
+                <div asp-validation-summary="All" class="text-danger"></div>
+
+                
+
+                <div class="form-group">
+                    <span> </span>
+                </div>
+
+
+                <br />
+                <input class="sub" type="submit" value="Submit">
+
+            </form>
         </div>
     </div>
-</div>
 </div>
 
 @section Scripts {
@@ -125,3 +86,4 @@
     <script src="https://cdn.jsdelivr.net/npm/popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 }
+
