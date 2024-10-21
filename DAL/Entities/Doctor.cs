@@ -16,7 +16,7 @@ namespace Hospital.DAL.Entities
         public decimal Salary { get; set; }
 
         
-        
+        public decimal SessionPrice { get; set; }
         public Specialization? Specialization { get; set; }
 
         public List<Schedule>? Schedules { get; set; }

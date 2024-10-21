@@ -152,15 +152,23 @@ namespace HospitalManagement.Controllers
             
         }
 
+        [HttpPost]
         public async Task<IActionResult> EditAppointment(AppointmentVm model)
         {
             model.Doctors = doctorService.GetAllDoctors();
             if (ModelState.IsValid)
             {
+                
+                
                 if (model.AppointmentDate >= DateTime.Now.Date)
                 {
 
                     var appoint =  await appointmentService.GetAppointmentById(model.Id.Value);
+                    if(appoint.Status == AppointStatus.Approved)
+                    {
+                        ModelState.AddModelError(string.Empty, "The appointment was already approved canr edit it");
+                        return View(model);
+                    }
                     appoint.AppointmentDate = model.AppointmentDate;
                     appoint.Notes = model.Notes;
                     appoint.DoctorID = model.DoctorId;

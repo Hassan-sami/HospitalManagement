@@ -57,7 +57,7 @@ namespace HospitalManagement.Controllers
             var appointment = await appointmentService.GetAppointmentById(id);
             DoctorAppointmentApprovalVm doctorAppointmentApprovalVm = new DoctorAppointmentApprovalVm()
             {
-                Status = appointment.Status,
+                Status = (int)appointment.Status,
                 Id = appointment.AppointmentID
 
             };
@@ -65,15 +65,15 @@ namespace HospitalManagement.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditAppointment(int Id ,DoctorAppointmentApprovalVm status)
+        
+        public async Task<IActionResult> EditAppointment(DoctorAppointmentApprovalVm Model)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && Model.Id  != 0 && Model.Status != 0)
             {
-                var appointment = await appointmentService.GetAppointmentById(Id);
+                var appointment = await appointmentService.GetAppointmentById(Model.Id);
 
                 var docId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                if (status.Status.ToString() == "Approved")
+                if (Model.Status == (int)AppointStatus.Approved)
                 {
                     var schedules =  scheduleService.GetDoctorSchedulesById(docId);
                     if (schedules != null)
@@ -85,7 +85,7 @@ namespace HospitalManagement.Controllers
                             {
                                 appointment.Schedule = sch;
                                 appointment.ScheduleId = sch.Id;
-                                appointment.Status = status.Status;
+                                appointment.Status = (AppointStatus)Model.Status;
                                 await appointmentService.UpdateAppointment(appointment);
                                 await sender.send(appointment.Patient.Email, "Your appointment Approval",
                                     $"your appointment is accepted Date {appointment.AppointmentDate}  " +
@@ -102,14 +102,14 @@ namespace HospitalManagement.Controllers
                 }
                 else
                 {
-                    appointment.Status = status.Status;
+                    appointment.Status = (AppointStatus)Model.Status;
                     await appointmentService.UpdateAppointment(appointment);
                     return RedirectToAction("GetAppointments");
                 }
                 
             }
-            status.Id = Id;
-            return View(status);
+            Model.Id = Model.Id;
+            return View(Model);
 
         }
         public IActionResult GetMedicalRecords()
