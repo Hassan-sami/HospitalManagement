@@ -167,7 +167,7 @@ namespace HospitalManagement.Controllers
                     if(appoint.Status == AppointStatus.Approved)
                     {
                         ModelState.AddModelError(string.Empty, "The appointment was already approved canr edit it");
-                        return View(model);
+                        return View("AppointmentDetails", model);
                     }
                     appoint.AppointmentDate = model.AppointmentDate;
                     appoint.Notes = model.Notes;
@@ -179,12 +179,12 @@ namespace HospitalManagement.Controllers
                     else
                     {
                         ModelState.AddModelError(string.Empty, "fail to save this update !!");
-                        return View(model);
+                        return View("AppointmentDetails", model);
                     }
                 }
                 ModelState.AddModelError(string.Empty, "Please Enter the Date greater than today or equal!!");
             }
-            return View(model);
+            return View("AppointmentDetails", model);
         }
 
         public IActionResult GetMedicalRecords()
