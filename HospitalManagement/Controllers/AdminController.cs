@@ -11,6 +11,7 @@ using System.Text.Encodings.Web;
 using System.Text;
 using Hospital.BLL.Services.Abstraction;
 using Hospital.BLL.Services.Implementation;
+using Org.BouncyCastle.Utilities;
 
 namespace HospitalManagement.Controllers
 {
@@ -172,6 +173,7 @@ namespace HospitalManagement.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditDoctor(string id, DoctorVm doctorVm)
         {
+            doctorVm.specializations = sepcializationService.GetSpecializations();
             if (ModelState.IsValid)
             {
                 doctorVm.Id = id;
@@ -250,8 +252,8 @@ namespace HospitalManagement.Controllers
             {
                 return NotFound("there is no patient with that email");
             }
-            var result = await userManager.DeleteAsync(patient);
-            if (!result.Succeeded)
+            var result = await patientService.Delete(patient);
+            if (!result)
             {
                 return BadRequest("can not delete this patient");
             }
@@ -289,6 +291,8 @@ namespace HospitalManagement.Controllers
         [HttpPost]
         public async Task<IActionResult> AddMedicalRecord(AddmedicalRecordVM addmedicalRecordVM)
         {
+            addmedicalRecordVM.patients = patientService.GetAllPatients();
+            addmedicalRecordVM.Doctors = doctorService.GetAllDoctors();
             if (ModelState.IsValid)
             {
                 var medicalRecord = mapper.Map<MedicalRecord>(addmedicalRecordVM);
@@ -319,6 +323,7 @@ namespace HospitalManagement.Controllers
         public async Task<IActionResult> CreateSchedule(CreateScheduleVM createScheduleVM)
         {
             createScheduleVM.Doctors = doctorService.GetAllDoctors();
+            createScheduleVM.Shifts = shiftService.GetShifts().ToList();
             if (ModelState.IsValid)
             {
                 var docSchedules = await doctorService.GetDoctorAndSchedulesById(createScheduleVM.DoctorId);
@@ -326,7 +331,7 @@ namespace HospitalManagement.Controllers
                 {
                     if (docSchedules.Schedules != null && docSchedules.Schedules.Any(sec =>
                     sec.DoctorId == createScheduleVM.DoctorId
-                    && sec.Day == sec.Day
+                    && sec.Day == createScheduleVM.Day
                     && sec.ShiftId == createScheduleVM.ShiftId
                     && sec.Status == createScheduleVM.Status))
                     {

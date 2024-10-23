@@ -4,7 +4,7 @@
 @{
     ViewData["Title"] = "getDoctorDetails";
     Layout = "~/Views/Shared/Admin_Layout.cshtml";
-    SelectList selectListItems = new SelectList(Model.specializations, "Id", "Name");
+    SelectList selectListItems = new SelectList(Model.specializations, "Id", "Name", Model.SpecializationId);
 }
 
 @section Style {
@@ -35,9 +35,22 @@
 
             <div class="input-group">
                 <label asp-for="SpecializationId"></label>
-                <select asp-for="SpecializationId" class="text" asp-items="selectListItems"  >
+                <select asp-for="SpecializationId" class="text"   >
+                    <option value="">Select Sepcialization</option>
+                    @if(Model.specializations != null)
+                    {
+                        @foreach (var sepc in Model.specializations)
+                        {
+                            if(sepc.Id != Model.SpecializationId)
+                            {
+                                <option value="@sepc.Id">@sepc.Name</option>
+                            }
+                            else{
+                                <option value="@sepc.Id" selected >@sepc.Name</option>
+                            }
+                        }
+                    }
                     
-                    <option value= "">Select Sepicalization</option>
 
                 </select>
                 <span asp-validation-for="SpecializationId" class="text-danger"></span>

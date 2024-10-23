@@ -23,7 +23,7 @@ namespace Hospital.DAL.Repository.Implementation
 
         public async Task<Doctor> GetDoctorById(string id)
         {
-            return await _context.Doctors.FindAsync(id);
+            return await _context.Doctors.Include(d => d.Specialization).FirstOrDefaultAsync(d => d.Id == id);
         }
 
         public async Task AddDoctor(Doctor Doctor)

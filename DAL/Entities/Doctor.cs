@@ -17,6 +17,9 @@ namespace Hospital.DAL.Entities
 
         
         public decimal SessionPrice { get; set; }
+
+        [ForeignKey("Specialization")]
+        public int? SpecializationId { get; set; }
         public Specialization? Specialization { get; set; }
 
         public List<Schedule>? Schedules { get; set; }
