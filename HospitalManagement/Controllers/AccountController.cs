@@ -396,16 +396,16 @@ namespace HospitalManagement.Controllers
             if (ModelState.IsValid)
             {
                 var user = await userManager.FindByEmailAsync(oldemail);
-                if (model.Email != oldemail && ( userManager.Users.Where(u => u.Email == model.Email).Count()) == 0)
+                if (model.Email != oldemail && (userManager.Users.Where(u => u.Email == model.Email).Count()) == 0)
                 {
-                     
-                    var code = await userManager.GenerateChangeEmailTokenAsync(user,model.Email);
+
+                    var code = await userManager.GenerateChangeEmailTokenAsync(user, model.Email);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                     var callBackAction = Url.Action(new Microsoft.AspNetCore.Mvc.Routing.UrlActionContext()
                     {
                         Action = "ChangeEmail",
                         Controller = "Account",
-                        Values = new { code = code,email = oldemail,newEmail = model.Email },
+                        Values = new { code = code, email = oldemail, newEmail = model.Email },
                         //Host = Request.Host.Value,
                         Protocol = Request.Scheme,
 
@@ -413,9 +413,11 @@ namespace HospitalManagement.Controllers
                     });
                     var sent = await sender.send(oldemail, "Change Email",
                          $"Please change your email by <a href='{HtmlEncoder.Default.Encode(callBackAction)}'>clicking here</a>.");
-                   
-                    
+
+
                 }
+                else
+                    ModelState.AddModelError(string.Empty, "This email is already exist");
                 if (ImageFile != null) 
                 {
                     model.Image = ImageFile?.FileName ?? string.Empty;

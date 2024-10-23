@@ -47,7 +47,7 @@
                     {
                         <a asp-action="LogOut" asp-controller="Account" class="btn btn-primary rounded-pill text-white py-2 px-4">Log out</a>
                     
-                        var Image = string.IsNullOrEmpty(User.FindFirst("Image").Value) ? "defaultDoc.jpg" : User.FindFirst("Image").Value;
+                        var Image = string.IsNullOrEmpty(User.FindFirst("Image")?.Value) ? "default.jpg" : User.FindFirst("Image")?.Value;
 
 
                         <a href="/Account/Profile">
