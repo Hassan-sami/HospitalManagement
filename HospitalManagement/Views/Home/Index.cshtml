@@ -46,6 +46,14 @@
                     @if (User?.Identity?.IsAuthenticated ?? false)
                     {
                         <a asp-action="LogOut" asp-controller="Account" class="btn btn-primary rounded-pill text-white py-2 px-4">Log out</a>
+                    
+                        var Image = string.IsNullOrEmpty(User.FindFirst("Image").Value) ? "defaultDoc.jpg" : User.FindFirst("Image").Value;
+
+
+                        <a href="/Account/Profile">
+                            <img class="rounded-circle img-fluid" alt="avatar1" src="/Images/@Image" style="object-fit : fill; width : 60px; height :60px">
+                        </a>
+                        
                     }
                     else
                     {
