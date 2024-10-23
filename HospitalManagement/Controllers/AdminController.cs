@@ -12,9 +12,11 @@ using System.Text;
 using Hospital.BLL.Services.Abstraction;
 using Hospital.BLL.Services.Implementation;
 using Org.BouncyCastle.Utilities;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HospitalManagement.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
         private readonly IMapper mapper;
