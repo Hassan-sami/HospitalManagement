@@ -146,7 +146,7 @@ namespace Hospital.DAL.Migrations
 
                     b.HasIndex("ScheduleId");
 
-                    b.ToTable("Appointments");
+                    b.ToTable("Appointments", (string)null);
                 });
 
             modelBuilder.Entity("Hospital.DAL.Entities.MedicalRecord", b =>
@@ -180,7 +180,7 @@ namespace Hospital.DAL.Migrations
 
                     b.HasIndex("PatientID");
 
-                    b.ToTable("MedicalRecords");
+                    b.ToTable("MedicalRecords", (string)null);
                 });
 
             modelBuilder.Entity("Hospital.DAL.Entities.Schedule", b =>
@@ -210,7 +210,7 @@ namespace Hospital.DAL.Migrations
 
                     b.HasIndex("ShiftId");
 
-                    b.ToTable("Schedules");
+                    b.ToTable("Schedules", (string)null);
                 });
 
             modelBuilder.Entity("Hospital.DAL.Entities.Shift", b =>
@@ -232,7 +232,7 @@ namespace Hospital.DAL.Migrations
 
                     b.HasKey("ShiftId");
 
-                    b.ToTable("Shifts");
+                    b.ToTable("Shifts", (string)null);
                 });
 
             modelBuilder.Entity("Hospital.DAL.Entities.Specialization", b =>
@@ -250,7 +250,7 @@ namespace Hospital.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Specialization");
+                    b.ToTable("Specialization", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -393,7 +393,7 @@ namespace Hospital.DAL.Migrations
                     b.Property<decimal>("Salary")
                         .HasColumnType("decimal(18,2)");
 
-                    b.ToTable("Admins");
+                    b.ToTable("Admins", (string)null);
                 });
 
             modelBuilder.Entity("Hospital.DAL.Entities.Doctor", b =>
@@ -411,7 +411,7 @@ namespace Hospital.DAL.Migrations
 
                     b.HasIndex("SpecializationId");
 
-                    b.ToTable("Doctors");
+                    b.ToTable("Doctors", (string)null);
                 });
 
             modelBuilder.Entity("Hospital.DAL.Entities.Patient", b =>
@@ -426,7 +426,7 @@ namespace Hospital.DAL.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.ToTable("Patients");
+                    b.ToTable("Patients", (string)null);
                 });
 
             modelBuilder.Entity("Hospital.DAL.Entities.Appointment", b =>

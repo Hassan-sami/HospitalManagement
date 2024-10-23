@@ -150,7 +150,10 @@ namespace HospitalManagement.Controllers
 
         public async Task<IActionResult> getDoctorDetails(string id)
         {
+            
             var doctor = await doctorService.DoctorByIdAsync(id);
+            if (doctor == null)
+                return RedirectToAction("ListDoctors");
             var result = mapper.Map<DoctorVm>(doctor);
             result.specializations = sepcializationService.GetSpecializations();
             return View(result);
@@ -203,6 +206,7 @@ namespace HospitalManagement.Controllers
                 FirstName = p.FirstName,
                 LastName = p.LastName,
                 Email = p.Email,
+                Image = p.Image,
                 Phone = p.PhoneNumber,
                 Id= p.Id
             }
@@ -242,6 +246,8 @@ namespace HospitalManagement.Controllers
         public async Task<IActionResult> GetPatientDetails(string id)
         {
             var patient = await patientService.GetPatientById(id);
+            if (patient == null)
+                return RedirectToAction("GetPatients");
             var patientVm = mapper.Map<EditPatientVm>(patient); 
             return View(patientVm);
         }

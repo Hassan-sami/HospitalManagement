@@ -144,7 +144,7 @@
     <a asp-action="GetPatientDetails" asp-controller="Admin" asp-route-id="@pat.Id" style="text-decoration : none">
         <div class="cardalt">
                 @{
-                    var image = User.Claims.FirstOrDefault(c => c.Type == "Image")?.Value ?? "default.jpg";
+                    var image = pat?.Image ?? "default.jpg";
                 }
                 <img alt="Doctor Image" src="/Images/@image" style="height : 150px; width :150px; " />
             <h3>@pat.FirstName @pat.LastName</h3>

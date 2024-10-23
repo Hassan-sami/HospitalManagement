@@ -15,6 +15,7 @@ namespace Hospital.DAL.Entities.config
         {
             builder.ToTable("Patients");
             
+
         }
     }
 }
