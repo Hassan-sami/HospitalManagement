@@ -49,7 +49,7 @@ namespace HospitalManagement.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> AddAppointment(AppointmentVm model)
-        {
+            {
             model.Doctors = doctorService.GetAllDoctors();
             if (ModelState.IsValid)
             {
