@@ -33,21 +33,8 @@ Welcome to the Hospital Management System, a comprehensive solution designed to 
 - **Database**: SQL Server for managing user data, appointments, and medical records
 - **Authentication**: Traditional login with password, Google OAuth for seamless registration and login, Email-based password recovery
 
-## Screenshots
-### Main Page
-![Main Page](attachment://main_page.jpg)
-
-### Login Page
-![Login Page](attachment://login_page.jpg)
-
 ## Setup Instructions
 1. Clone the repository.
 2. Install the required dependencies for .NET Framework and SQL Server.
 3. Configure the database connection in the application settings.
 4. Run the application and access it via the provided URL.
-
-## Contributing
-Contributions are welcome! Please fork the repository and submit a pull request with your changes.
-
-## License
-This project is licensed under the MIT License.
